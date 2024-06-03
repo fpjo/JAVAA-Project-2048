@@ -4,13 +4,15 @@ import javafx.beans.property.StringProperty;
 import project.javaa.project2048.module.GameSettings;
 import project.javaa.project2048.view.Tile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -49,41 +51,62 @@ public class RecordManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try (FileOutputStream file = new FileOutputStream(new File(userGameFolder, recordFilename))) {
+        var filePath = new File(userGameFolder, recordFilename + ".properties");
+        try (FileOutputStream file = new FileOutputStream(filePath)) {
             props.store(file, "Game Session");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    protected boolean loadRecord(Tile[][] gameGrid, Integer score, Integer round, StringProperty time) {
-        if (GameSettings.isGuest()) {
-            return false;
-        }
-        try {
-            var userDataPath = Path.of(GameSettings.LOCAL.getGameFolder().toString(), GameSettings.getPlayerName());
-            userGameFolder = Files.createDirectories(userDataPath).toFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        File[] files = userGameFolder.listFiles();
-        if (files == null || files.length == 0) {
-            return false;
-        }
-        File lastFile = files[0];
-        for (File file : files) {
-            if (file.getName().compareTo(lastFile.getName()) > 0) {
-                lastFile = file;
+
+        byte[] digest = new byte[0];
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
+                while (dis.read() != -1) ; //empty loop to clear the data
+                digest = md.digest();
+                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
             }
+        } catch (IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
-        props.clear();
-        try {
-            props.load(Files.newBufferedReader(lastFile.toPath()));
+        var hashFilePath = new File(userGameFolder, recordFilename + ".hash");
+        try (FileOutputStream file = new FileOutputStream(hashFilePath)) {
+            file.write(digest);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        restoreRecord(gameGrid,score, round, time);
+    }
+    protected boolean loadRecord(File recordfile,File recordHash) {
+        if (GameSettings.isGuest()) {
+            return false;
+        }
+        if (recordfile == null || recordHash == null) {
+            return false;
+        }
+        try (FileInputStream fileInputStream = new FileInputStream(recordfile)) {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] digest = new byte[0];
+            try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
+                while (dis.read() != -1) ; //empty loop to clear the data
+                digest = md.digest();
+                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
+            }
+            try (FileInputStream file = new FileInputStream(recordHash)) {
+                byte[] hash = file.readAllBytes();
+                if (!Arrays.equals(digest, hash)) {
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            props.clear();
+            props.load(Files.newBufferedReader(recordfile.toPath()));
+        } catch (IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return true;
     }
+
     protected boolean restoreRecord(Tile[][] gameGrid, Integer score, Integer round, StringProperty time) {
         if(props.isEmpty()) {
             return false;
