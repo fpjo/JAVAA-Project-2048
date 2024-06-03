@@ -1,9 +1,7 @@
-package project.javaa.project2048.view;
+package project.javaa.project2048;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import project.javaa.project2048.Board;
-import project.javaa.project2048.Location;
 
 import java.io.Serializable;
 import java.util.Optional;

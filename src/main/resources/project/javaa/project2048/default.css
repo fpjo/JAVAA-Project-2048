@@ -137,8 +137,10 @@
 }
 .start-button {
     -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
-    -fx-max-width: 150;
+    -fx-max-width: 180;
+    -fx-alignment: center;
     -fx-background-color: #8f7a66;
     -fx-border-color: #8f7a66;
     -fx-border-width: 2;
@@ -148,21 +150,49 @@
 }
 .login-button {
     -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
-    -fx-max-width: 150;
+    -fx-max-width: 180;
     -fx-background-color: #f2b179;
-    -fx-border-color: #8f7a66;
+    -fx-border-color: #f2b179;
     -fx-border-width: 2;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
     -fx-padding: 6 20 12 20;
  }
+.setting-button {
+    -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
+    -fx-text-fill: white;
+    -fx-max-width: 180;
+    -fx-background-color: #f2b179;
+    -fx-border-color: #f2b179;
+    -fx-border-width: 2;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-padding: 6 20 12 20;
+
+}
 .exit-button {
     -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
     -fx-background-color: red;
-    -fx-max-width: 150;
+    -fx-alignment: center;
+    -fx-max-width: 180;
     -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-padding: 6 20 12 20;
+}
+.load-button {
+    -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
+    -fx-text-fill: white;
+    -fx-max-width: 180;
+    -fx-background-color: #8f7a66;
+    -fx-border-color: #8f7a66;
     -fx-border-width: 2;
     -fx-background-radius: 3;
     -fx-border-radius: 3;

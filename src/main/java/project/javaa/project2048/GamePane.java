@@ -1,9 +1,8 @@
-package project.javaa.project2048.view;
+package project.javaa.project2048;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import project.javaa.project2048.GameManager;
 
 public class GamePane extends StackPane {
     private final GameManager gameManager;

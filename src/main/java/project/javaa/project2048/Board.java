@@ -33,7 +33,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-import project.javaa.project2048.view.Tile;
 
 public class Board extends Pane {
 

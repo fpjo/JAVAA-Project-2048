@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-//import project.javaa.project2048.view.GamePane;
+//import project.javaa.project2048.GamePane;
 
 import java.util.Objects;
 
@@ -17,9 +17,9 @@ public class Game2048 extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("2048 Game");
         startPane = new StartPane(primaryStage);
-        Scene startScene = new Scene(startPane, 400, 600);
+        Scene startScene = new Scene(startPane, 600, 600);
         startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
-//        setGameBounds(primaryStage, startScene);
+        setGameBounds(primaryStage, startScene);
         primaryStage.setScene(startScene);
         primaryStage.show();
     }

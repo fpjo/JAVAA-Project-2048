@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import project.javaa.project2048.view.Tile;
 
 import java.util.*;
 
