@@ -85,7 +85,7 @@ public class Board extends Pane {
     public Board(GridOperator grid) {
         this.gridOperator = grid;
         gridDimension = CELL_SIZE * grid.getGridSize() + BORDER_WIDTH * 2;
-        sessionManager = new SessionManager(gridOperator);
+        recordManager = new RecordManager();
 
         createScore();
         createGrid();
@@ -497,7 +497,7 @@ public class Board extends Pane {
     }
 
     public Tile addRandomTile(Location randomLocation) {
-        var tile = Tile.newRandomTile();
+        var tile = Tile.newRandomTile(0);
         tile.setLocation(randomLocation);
 
         double layoutX = tile.getLocation().getLayoutX(CELL_SIZE) - (tile.getMinWidth() / 2);
