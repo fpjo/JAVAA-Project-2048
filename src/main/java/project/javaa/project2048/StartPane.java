@@ -1,15 +1,14 @@
-package project.javaa.project2048.view;
+package project.javaa.project2048;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import project.javaa.project2048.SettingPane;
-import project.javaa.project2048.module.GameSettings;
 
-import java.util.Objects;
+import java.net.URL;
 
 public class StartPane extends VBox {
     private Button startButton;
@@ -17,6 +16,7 @@ public class StartPane extends VBox {
     private Button settingButton;
     private Button loadRecordButton;
     private Button aboutButton;
+    //    private SettingPane settingPane;
     public StartPane(Stage primaryStage) {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
@@ -25,11 +25,12 @@ public class StartPane extends VBox {
         Text title = new Text("Game 2048");
         title.getStyleClass().add("game-title");
 
-        settingButton = new Button("Setting");
-        loadRecordButton = new Button("Load Record");
+        setStartButton(primaryStage);
+        setExitButton(primaryStage);
+        setSettingButton(primaryStage);
+        setLoadRecordButton(primaryStage);
         aboutButton = new Button("About");
 
-        setStartButton(primaryStage);
         this.getChildren().addAll(title, startButton, exitButton,settingButton,loadRecordButton,aboutButton);
     }
     private void setStartButton(Stage primaryStage) {
@@ -53,19 +54,27 @@ public class StartPane extends VBox {
     }
     private void setSettingButton(Stage primaryStage) {
         settingButton = new Button("Setting");
-        settingButton.getStyleClass().add("setting-button");
+        settingButton.getStyleClass().add("start-button");
         settingButton.setOnAction(e -> {
             System.out.println("Setting button clicked");
-            SettingPane settingPane = new SettingPane(primaryStage);
+            Stage stage = new Stage();
+            SettingPane settingPane = new SettingPane(stage);
             Scene settingScene = new Scene(settingPane, 400, 600);
-            settingScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
-            settingPane.display();
-            primaryStage.setScene(settingScene);
+            URL cssUrl = getClass().getResource(GameSettings.getUserCSS());
+            if (cssUrl == null) {
+                throw new RuntimeException("Cannot find CSS file: " + GameSettings.getUserCSS());
+            }
+            settingScene.getStylesheets().add(cssUrl.toExternalForm());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Settings");
+            stage.setScene(settingScene);
+            stage.showAndWait();
+            stage.close();
         });
     }
-    private void serLoadRecordButton(Stage primaryStage) {
+    private void setLoadRecordButton(Stage primaryStage) {
         loadRecordButton = new Button("Load Record");
-        loadRecordButton.getStyleClass().add("load-record-button");
+        loadRecordButton.getStyleClass().add("load-button");
         loadRecordButton.visibleProperty().bind(GameSettings.isGuestProperty().not());
 //        loadRecordButton.setOnAction(e -> {
 //            System.out.println("Load Record button clicked");
@@ -76,4 +85,3 @@ public class StartPane extends VBox {
 //        });
     }
 }
-

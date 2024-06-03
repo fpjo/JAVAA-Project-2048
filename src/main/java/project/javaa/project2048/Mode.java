@@ -1,4 +1,4 @@
-package project.javaa.project2048.module;
+package project.javaa.project2048;
 
 public enum Mode {
     NORMAL, TIMELIMITED, STEPLIMITED;

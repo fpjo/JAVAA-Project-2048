@@ -6,10 +6,10 @@
       <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/Board.java" />
       <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/GameManager.java" />
       <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/GridOperator.java" />
-      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/GameGrid.java" />
-      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/Tile.java" />
-      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/GamePane.java" />
       <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/RecordManager.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/view/GameGrid.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/view/GamePane.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/project/javaa/project2048/view/Tile.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">

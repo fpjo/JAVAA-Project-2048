@@ -1,7 +1,6 @@
 package project.javaa.project2048;
 
 import javafx.beans.property.StringProperty;
-import project.javaa.project2048.module.GameSettings;
 import project.javaa.project2048.view.Tile;
 
 import java.io.*;

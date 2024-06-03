@@ -3,7 +3,7 @@ package project.javaa.project2048.view;
 import javafx.animation.*;
 import javafx.util.Duration;
 import project.javaa.project2048.*;
-import project.javaa.project2048.module.GameSettings;
+import project.javaa.project2048.GameSettings;
 import project.javaa.project2048.module.NumberTable;
 
 import java.util.Objects;

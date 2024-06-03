@@ -53,6 +53,17 @@
     -fx-smooth: true;
     -fx-font-family: 'Clear Sans Bold';
 }
+.option-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #776e65;
+    -fx-font-smoothing-type: lcd;
+    -fx-smooth: true;
+    -fx-font-family: 'Microsoft YaHei UI Light';
+    -fx-underline: true;
+}
+.option-comboBox {
+    -fx-pref-width: 150;
+}
 
 .game-title {
     -fx-font-size: 80px;
@@ -115,6 +126,15 @@
     -fx-opacity: 0.6;
     -fx-background-color: #f9f6f2;
 }
+.version-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #776e65;
+}
+
+.user-status-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #776e65;
+}
 .start-button {
     -fx-font-size: 30px;
     -fx-text-fill: white;
@@ -126,6 +146,17 @@
     -fx-border-radius: 3;
     -fx-padding: 6 20 12 20;
 }
+.login-button {
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-max-width: 150;
+    -fx-background-color: #f2b179;
+    -fx-border-color: #8f7a66;
+    -fx-border-width: 2;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-padding: 6 20 12 20;
+ }
 .exit-button {
     -fx-font-size: 30px;
     -fx-text-fill: white;

@@ -1,9 +1,10 @@
-package project.javaa.project2048.module;
+package project.javaa.project2048;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
@@ -118,5 +119,19 @@ public enum GameSettings {
         });
     }
 
+    @Override
+    public String toString() {
+        return "GameSettings{" +
+                "GameFolder=" + GameFolder +
+                ", isGuest=" + isGuest +
+                ", playerName='" + playerName + '\'' +
+                ", userCSS='" + userCSS + '\'' +
+                ", timeLimitInSeconds=" + timeLimitInSeconds +
+                ", stepLimit=" + stepLimit +
+                ", GRID_SIZE=" + GRID_SIZE +
+                ", FINAL_VALUE_TO_WIN=" + FINAL_VALUE_TO_WIN +
+                ", mode=" + mode.toString() +
+                '}';
+    }
 }
 
