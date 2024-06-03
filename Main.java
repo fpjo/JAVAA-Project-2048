@@ -10,25 +10,32 @@ public class Main {
     //此处的大小、目标考虑由前端设置，待开发
 
     public void main(String[] args) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j : matrix[i]) {
-                matrix[i][j] = 0;
-            }
-        }
-        //生成一个全为0的初始矩阵
+        init();
     }
 
     public void setCols(int cols) {
         this.cols = cols;
+        matrix = new int[rows][cols];
+        init();
     }
+    //设置列数
 
     public void setRows(int rows) {
         this.rows = rows;
+        matrix = new int[rows][cols];
+        init();
     }
+    //设置行数
 
     public void setGoal(int goal) {
         this.goal = goal;
     }
+    //设定目标
+
+    public int getGoal() {
+        return goal;
+    }
+    //返回目标
 
     public int[][] getMatrix() {
         return matrix;
@@ -79,6 +86,7 @@ public class Main {
 
         return ifSuccess;
     }
+    //滑动成功时返回true（移动并消除）
 
     private boolean eliminate(Direction direction) {
         boolean eliminated = false;
@@ -155,6 +163,7 @@ public class Main {
         move(direction);
         return eliminated;
     }
+    //消除成功即返回true，使用该方法前需要进行一次move消除空格
 
     private boolean move(Direction direction) {
         boolean moved = false;
@@ -218,5 +227,29 @@ public class Main {
         return moved;
         //如果成功完成了任意方向的移动操作，则会返回true
     }
+    //移动成功时返回true
+
+    public void init() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j : matrix[i]) {
+                matrix[i][j] = 0;
+            }
+        }
+        //生成一个全为0的初始矩阵
+    }
+    //初始化
+
+    private boolean ifSuccess() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] >= goal) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    //检测是否达到目标
 }
 
