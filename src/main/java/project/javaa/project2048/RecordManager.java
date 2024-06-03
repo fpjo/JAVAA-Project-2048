@@ -76,14 +76,14 @@ public class RecordManager {
             e.printStackTrace();
         }
     }
-    protected boolean loadRecord(File recordfile,File recordHash) {
+    protected boolean loadRecord(File recordFile, File recordHash) {
         if (GameSettings.isGuest()) {
             return false;
         }
-        if (recordfile == null || recordHash == null) {
+        if (recordFile == null || recordHash == null) {
             return false;
         }
-        try (FileInputStream fileInputStream = new FileInputStream(recordfile)) {
+        try (FileInputStream fileInputStream = new FileInputStream(recordFile)) {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = new byte[0];
             try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
@@ -100,7 +100,7 @@ public class RecordManager {
                 e.printStackTrace();
             }
             props.clear();
-            props.load(Files.newBufferedReader(recordfile.toPath()));
+            props.load(Files.newBufferedReader(recordFile.toPath()));
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

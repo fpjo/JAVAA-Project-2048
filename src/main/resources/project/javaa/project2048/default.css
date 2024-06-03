@@ -7,6 +7,12 @@
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
+.game-hbox {
+    -fx-background-color: #bbada0;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
 .game-titScore {
     -fx-font-size: 13px;
     -fx-fill: #eee4da;
@@ -55,7 +61,7 @@
 .game-subtitle {
     -fx-font-size: 40px;
     -fx-fill: #f2b179; // f9f6f2
--fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 1), 10, 0.5, 0, 0 );
+    -fx-effect: dropshadow( three-pass-box, rgba(93, 218, 169, 1), 10, 0.5, 0, 0 ); // rgba(243, 215, 116, 1)
 }
 
 .game-overlay {

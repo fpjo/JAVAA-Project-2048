@@ -53,8 +53,8 @@ public class Board extends Pane {
     private final VBox vGame = new VBox(0);
     private final Group gridGroup = new Group();
 
-    private final HBox hTop = new HBox(0);
-    private final VBox vScore = new VBox(-5);
+    private final VBox vTop = new VBox(0);
+    private final HBox hScore = new HBox(-5);
     private final Label lblScore = new Label("0");
     private final Label lblBest = new Label("0");
     private final Label lblPoints = new Label();
@@ -67,12 +67,12 @@ public class Board extends Pane {
     private final HBox buttonsOverlay = new HBox();
 
     // Overlay Buttons
-    private final Button bTry = new Button("Try again");
-    private final Button bContinue = new Button("Keep going");
-    private final Button bContinueNo = new Button("No, keep going");
-    private final Button bSave = new Button("Save");
-    private final Button bRestore = new Button("Restore");
-    private final Button bQuit = new Button("Quit");
+    private final Button btnTry = new Button("Try again");
+    private final Button btnContinue = new Button("Keep going");
+    private final Button btnContinueNo = new Button("No, keep going");
+    private final Button btnSave = new Button("Save");
+    private final Button btnRestore = new Button("Restore");
+    private final Button btnQuit = new Button("Quit");
 
     private final HBox hToolbar = new HBox();
 
@@ -87,57 +87,57 @@ public class Board extends Pane {
         gridDimension = CELL_SIZE * grid.getGridSize() + BORDER_WIDTH * 2;
         recordManager = new RecordManager();
 
-        createScore();
+        createStateBar();
         createGrid();
         createToolBar();
         initGameProperties();
     }
 
-    private void createScore() {
+    private void createStateBar() {
         var lblTitle = new Label("2048");
         lblTitle.getStyleClass().addAll("game-label", "game-title");
 
-        var lblSubtitle = new Label("FX");
+        var lblSubtitle = new Label("Project");
         lblSubtitle.getStyleClass().addAll("game-label", "game-subtitle");
 
-        var hFill = new HBox();
-        HBox.setHgrow(hFill, Priority.ALWAYS);
-        hFill.setAlignment(Pos.CENTER);
+        var vFill = new VBox();
+        VBox.setVgrow(vFill, Priority.ALWAYS);
+        vFill.setAlignment(Pos.CENTER);
 
         var vScores = new VBox();
         var hScores = new HBox(5);
 
-        vScore.setAlignment(Pos.CENTER);
-        vScore.getStyleClass().add("game-vbox");
+        hScore.setAlignment(Pos.CENTER);
+        hScore.getStyleClass().add("game-hbox");
 
         var lblTit = new Label("SCORE");
         lblTit.getStyleClass().addAll("game-label", "game-titScore");
 
         lblScore.getStyleClass().addAll("game-label", "game-score");
         lblScore.textProperty().bind(state.gameScoreProperty.asString());
-        vScore.getChildren().addAll(lblTit, lblScore);
+        hScore.getChildren().addAll(lblTit, lblScore);
 
-        var vRecord = new VBox(-5);
-        vRecord.setAlignment(Pos.CENTER);
-        vRecord.getStyleClass().add("game-vbox");
+        var hRecord = new HBox(-5);
+        hRecord.setAlignment(Pos.CENTER);
+        hRecord.getStyleClass().add("game-hbox");
 
         var lblTitBest = new Label("BEST");
         lblTitBest.getStyleClass().addAll("game-label", "game-titScore");
         lblBest.getStyleClass().addAll("game-label", "game-score");
         lblBest.textProperty().bind(state.gameBestProperty.asString());
-        vRecord.getChildren().addAll(lblTitBest, lblBest);
-        hScores.getChildren().addAll(vScore, vRecord);
+        hRecord.getChildren().addAll(lblTitBest, lblBest);
+        vScores.getChildren().addAll(hScore, hRecord);
 
-        var vFill = new VBox();
-        VBox.setVgrow(vFill, Priority.ALWAYS);
-        vScores.getChildren().addAll(hScores, vFill);
+        var hFill = new HBox();
+        HBox.setHgrow(hFill, Priority.ALWAYS);
+        hScores.getChildren().addAll(hScores, hFill);
 
-        hTop.getChildren().addAll(lblTitle, lblSubtitle, hFill, vScores);
-        hTop.setMinSize(gridDimension, TOP_HEIGHT);
-        hTop.setPrefSize(gridDimension, TOP_HEIGHT);
-        hTop.setMaxSize(gridDimension, TOP_HEIGHT);
+        vTop.getChildren().addAll(lblTitle, lblSubtitle, vFill, vScores);
+        vTop.setMinSize(gridDimension, TOP_HEIGHT);
+        vTop.setPrefSize(gridDimension, TOP_HEIGHT);
+        vTop.setMaxSize(gridDimension, TOP_HEIGHT);
 
-        vGame.getChildren().add(hTop);
+        vGame.getChildren().add(vTop);
 
         var hTime = new HBox();
         hTime.setMinSize(gridDimension, GAP_HEIGHT);
@@ -237,7 +237,7 @@ public class Board extends Pane {
         Platform.exit();
     }
 
-    private final Overlay wonListener = new Overlay("You win!", "", bContinue, bTry, "game-overlay-won", "game-lblWon");
+    private final Overlay wonListener = new Overlay("You win!", "", btnContinue, btnTry, "game-overlay-won", "game-lblWon");
 
     private class Overlay implements ChangeListener<Boolean> {
 
@@ -298,34 +298,34 @@ public class Board extends Pane {
         buttonsOverlay.setMinSize(gridDimension, (double) gridDimension / 2);
         buttonsOverlay.setSpacing(10);
 
-        bTry.getStyleClass().add("game-button");
-        bTry.setOnAction(e -> tryAgain());
+        btnTry.getStyleClass().add("game-button");
+        btnTry.setOnAction(e -> tryAgain());
 
-        bContinue.getStyleClass().add("game-button");
-        bContinue.setOnAction(e -> keepGoing());
+        btnContinue.getStyleClass().add("game-button");
+        btnContinue.setOnAction(e -> keepGoing());
 
-        bContinueNo.getStyleClass().add("game-button");
-        bContinueNo.setOnAction(e -> keepGoing());
+        btnContinueNo.getStyleClass().add("game-button");
+        btnContinueNo.setOnAction(e -> keepGoing());
 
-        bSave.getStyleClass().add("game-button");
-        bSave.setOnAction(e -> state.saveGame.set(true));
+        btnSave.getStyleClass().add("game-button");
+        btnSave.setOnAction(e -> state.saveGame.set(true));
 
-        bRestore.getStyleClass().add("game-button");
-        bRestore.setOnAction(e -> state.restoreGame.set(true));
+        btnRestore.getStyleClass().add("game-button");
+        btnRestore.setOnAction(e -> state.restoreGame.set(true));
 
-        bQuit.getStyleClass().add("game-button");
-        bQuit.setOnAction(e -> exitGame());
+        btnQuit.getStyleClass().add("game-button");
+        btnQuit.setOnAction(e -> exitGame());
 
         state.gameWonProperty.addListener(wonListener);
         state.gameOverProperty
-                .addListener(new Overlay("Game over!", "", bTry, null, "game-overlay-over", "game-lblOver"));
+                .addListener(new Overlay("Game over!", "", btnTry, null, "game-overlay-over", "game-lblOver"));
         state.gamePauseProperty.addListener(
-                new Overlay("Game Paused", "", bContinue, null, "game-overlay-pause", "game-lblPause"));
-        state.gameTryAgainProperty.addListener(new Overlay("Try Again?", "Current game will be deleted", bTry, bContinueNo,
+                new Overlay("Game Paused", "", btnContinue, null, "game-overlay-pause", "game-lblPause"));
+        state.gameTryAgainProperty.addListener(new Overlay("Try Again?", "Current game will be deleted", btnTry, btnContinueNo,
                 "game-overlay-pause", "game-lblPause"));
-        state.gameSaveProperty.addListener(new Overlay("Save?", "Previous saved data will be overwritten", bSave, bContinueNo,
+        state.gameSaveProperty.addListener(new Overlay("Save?", "Previous saved data will be overwritten", btnSave, btnContinueNo,
                 "game-overlay-pause", "game-lblPause"));
-        state.gameRestoreProperty.addListener(new Overlay("Restore?", "Current game will be deleted", bRestore, bContinueNo,
+        state.gameRestoreProperty.addListener(new Overlay("Restore?", "Current game will be deleted", btnRestore, btnContinueNo,
                 "game-overlay-pause", "game-lblPause"));
         state.gameAboutProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -391,13 +391,13 @@ public class Board extends Pane {
                 flow.getChildren().setAll(t00, t01, t02, t1, t20, link1, t21, t23, link2, t22, link3);
                 flow.getChildren().addAll(t24, t31);
                 txtOverlay.getChildren().setAll(flow);
-                buttonsOverlay.getChildren().setAll(bContinue);
+                buttonsOverlay.getChildren().setAll(btnContinue);
                 this.getChildren().removeAll(overlay, buttonsOverlay);
                 this.getChildren().addAll(overlay, buttonsOverlay);
                 state.layerOnProperty.set(true);
             }
         });
-        state.gameQuitProperty.addListener(new Overlay("Quit Game?", "Non saved data will be lost", bQuit, bContinueNo,
+        state.gameQuitProperty.addListener(new Overlay("Quit Game?", "Non saved data will be lost", btnQuit, btnContinueNo,
                 "game-overlay-quit", "game-lblQuit"));
 
         restoreRecord();
@@ -443,7 +443,7 @@ public class Board extends Pane {
         lblPoints.setText("+" + state.gameMovePoints.getValue().toString());
         lblPoints.setOpacity(1);
 
-        double posX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
+        double posX = hScore.localToScene(hScore.getWidth() / 2d, 0).getX();
         lblPoints.setTranslateX(0);
         lblPoints.setTranslateX(lblPoints.sceneToLocal(posX, 0).getX() - lblPoints.getWidth() / 2d);
         lblPoints.setLayoutY(20);
@@ -469,7 +469,7 @@ public class Board extends Pane {
         lblPoints.setText("+" + state.gameMovePoints.getValue().toString());
         lblPoints.setOpacity(1);
 
-        double posX = vScore.localToScene(vScore.getWidth() / 2d, 0).getX();
+        double posX = hScore.localToScene(hScore.getWidth() / 2d, 0).getX();
         lblPoints.setTranslateX(0);
         lblPoints.setTranslateX(lblPoints.sceneToLocal(posX, 0).getX() - lblPoints.getWidth() / 2d);
         lblPoints.setLayoutY(20);

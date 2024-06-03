@@ -22,7 +22,7 @@ public class Game2048 extends Application {
         startPane = new StartPane(primaryStage);
         Scene startScene = new Scene(startPane, 400, 600);
 
-        startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.LOCAL.getCss())).toExternalForm());
+        startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getCss())).toExternalForm());
         setGameBounds(primaryStage, startScene);
         primaryStage.setScene(startScene);
         primaryStage.show();
