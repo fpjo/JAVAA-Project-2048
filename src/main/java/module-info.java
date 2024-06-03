@@ -5,10 +5,4 @@ module project.javaa.project2048 {
 
     opens project.javaa.project2048 to javafx.fxml;
     exports project.javaa.project2048;
-    exports project.javaa.project2048.test;
-    opens project.javaa.project2048.test to javafx.fxml;
-    exports project.javaa.project2048.view;
-    opens project.javaa.project2048.view to javafx.fxml;
-    exports project.javaa.project2048.module;
-    opens project.javaa.project2048.module to javafx.fxml;
 }

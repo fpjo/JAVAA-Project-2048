@@ -528,10 +528,10 @@ public class Board extends Pane {
         state.gameMovePoints.set(state.gameMovePoints.get() + points);
         state.gameScoreProperty.set(state.gameScoreProperty.get() + points);
     }
-    public void addRound() {
-        state.gameRounds.set(state.gameRounds.get() + 1);
-        lblRounds.setText(String.valueOf(state.gameRounds.get()));
-    }
+//    public void addRound() {
+//        state.gameRounds.set(state.gameRounds.get() + 1);
+//        lblRounds.setText(String.valueOf(state.gameRounds.get()));
+//    }
 
 
     public void setGameOver(boolean gameOver) {

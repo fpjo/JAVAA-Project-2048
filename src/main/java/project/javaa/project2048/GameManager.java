@@ -49,8 +49,8 @@ public class GameManager extends Group {
         var trueProperty = new SimpleBooleanProperty(true);
         board.clearGameProperty().and(trueProperty).addListener((ov, b1, b2) -> initializeGameGrid());
         board.resetGameProperty().and(trueProperty).addListener((ov, b1, b2) -> startGame());
-        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
-        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
+//        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
+//        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
 
         initializeGameGrid();
         startGame();
@@ -357,33 +357,33 @@ public class GameManager extends Group {
     /**
      * Ask to save the game from a properties file with confirmation
      */
-    public void saveSession() {
-        board.saveSession();
-    }
+//    public void saveSession() {
+//        board.saveSession();
+//    }
 
     /**
      * Save the game to a properties file, without confirmation
      */
-    private void doSaveSession() {
-        board.saveSession(numberTable.get(roundsCnt));
-    }
+//    private void doSaveSession() {
+//        board.saveSession(numberTable.get(roundsCnt));
+//    }
 
     /**
      * Ask to restore the game from a properties file with confirmation
      */
-    public void restoreSession() {
-        board.restoreSession();
-    }
+//    public void restoreSession() {
+//        board.restoreSession();
+//    }
 
     /**
      * Restore the game from a properties file, without confirmation
      */
-    private void doRestoreSession() {
-        initializeGameGrid();
-        if (board.restoreSession(gameGrid)) {
-            redrawTilesInGameGrid();
-        }
-    }
+//    private void doRestoreSession() {
+//        initializeGameGrid();
+//        if (board.restoreSession(gameGrid)) {
+//            redrawTilesInGameGrid();
+//        }
+//    }
 
     /**
      * Save actual record to a properties file
@@ -393,16 +393,17 @@ public class GameManager extends Group {
     }
 
     private HBox createToolBar() {
-        var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
-        var btnLogin = createButtonItem("mLogin", "Login", t -> board.login());
-        var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
+//        var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
+//        var btnLogin = createButtonItem("mLogin", "Login", t -> board.login());
+//        var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReset", "Reset", t -> board.showTryAgainOverlay());
         var btnSettings = createButtonItem("mSettings", "Settings", t -> board.aboutGame()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
-        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
+//        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
+        var toolbar = new HBox(btnPause, btnReset, btnSettings, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));
         return toolbar;

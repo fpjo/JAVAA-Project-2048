@@ -90,6 +90,6 @@ public class NumberTable {
                 }
             }
         }
-
+        return 0;
     }
 }

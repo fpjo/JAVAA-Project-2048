@@ -5,25 +5,23 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import project.javaa.project2048.module.GameSettings;
-import project.javaa.project2048.view.GamePane;
+//import project.javaa.project2048.view.GamePane;
 import project.javaa.project2048.view.StartPane;
 
 import java.util.Objects;
 
 public class Game2048 extends Application {
     public static final String VERSION = "1.0.0";
-    private GamePane gamePane;
+//    private GamePane gamePane;
     private StartPane startPane;
     private static Game2048 applicationInstance;
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("2048 Game");
-
         startPane = new StartPane(primaryStage);
         Scene startScene = new Scene(startPane, 400, 600);
-
-        startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getCss())).toExternalForm());
-        setGameBounds(primaryStage, startScene);
+        startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
+//        setGameBounds(primaryStage, startScene);
         primaryStage.setScene(startScene);
         primaryStage.show();
     }

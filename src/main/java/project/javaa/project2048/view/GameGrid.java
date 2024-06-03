@@ -26,7 +26,6 @@ public class GameGrid {
     private void startGame(Board board){
         score = 0;
         numberTable.init();
-        var tile = board.
         for (int y = 0; y < gridSize; y++) {
             for (int x = 0; x < gridSize; x++) {
                 if (numberTable.getValue(x, y) != 0) {
