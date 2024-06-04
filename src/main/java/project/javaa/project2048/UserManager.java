@@ -15,15 +15,15 @@ public class UserManager {
     }
 
     private void loadUserDataFromFile() {
-        if (!Files.exists(Paths.get("").getParent().getParent().resolve("resources/data.dat"))) {
+        if (!Files.exists(Paths.get("").getParent().getParent().resolve("resources/project.javaa.project2048/data.dat"))) {
             try {
-                Files.createFile(Paths.get("").getParent().getParent().resolve("resources/data.dat"));
+                Files.createFile(Paths.get("").getParent().getParent().resolve("resources/project.javaa.project2048/data.dat"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        path = Paths.get("").getParent().getParent().resolve("resources/data.dat").toString();
+        path = Paths.get("").getParent().getParent().resolve("resources/project.javaa.project2048/data.dat").toString();
 
         try {
             FileInputStream fis = new FileInputStream(path);
