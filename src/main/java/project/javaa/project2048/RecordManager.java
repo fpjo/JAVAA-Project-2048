@@ -23,7 +23,7 @@ public class RecordManager {
         GRID_SIZE = GameSettings.LOCAL.getGridSize();
     }
 
-    protected void saveRecord(Tile[][] gameGrid, Integer score, Integer round, StringProperty time) {
+    protected void saveRecord(Tile[][] gameGrid, Integer score, Integer round,Long time) {
         if(GameSettings.isGuest()) {
             return;
         }
@@ -34,10 +34,10 @@ public class RecordManager {
         props.setProperty("round", round.toString());
         props.setProperty("grid_size", Integer.toString(GRID_SIZE));
         props.setProperty("isGuest", Boolean.toString(GameSettings.isGuest()));
-        props.setProperty("time", time.get());
+        props.setProperty("time", time.toString());
         props.setProperty("userName",GameSettings.getPlayerName());
         props.setProperty("userMode", GameSettings.getMode().toString());
-        props.setProperty("userCSS", GameSettings.getCss());
+        props.setProperty("userCSS", GameSettings.getUserCSS());
         for(int i=0;i<GRID_SIZE;i++) {
             for(int j=0;j<GRID_SIZE;j++) {
                 props.setProperty("Location_" + i + "_" + j, gameGrid[i][j] != null ? gameGrid[i][j].getValue().toString() : "0");

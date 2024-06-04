@@ -1,6 +1,7 @@
 package project.javaa.project2048;
 
 import javafx.animation.*;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,23 +33,28 @@ public class GameManager extends Group {
     private final Board board;
     private Animation shakingAnimation;
 
-    public GameManager(){ this(GameSettings.LOCAL); }
+//    public GameManager(){ this(GameSettings.LOCAL); }
 
-    public GameManager(GameSettings settings){
-        GRID_SIZE = settings.getGridSize();
+    public GameManager(){
+        GRID_SIZE = GameSettings.getGridSize();
         this.gameGrid = new Tile[GRID_SIZE][GRID_SIZE];
+        for(int i=0;i<GRID_SIZE;i++){
+            for(int j=0;j<GRID_SIZE;j++){
+                gameGrid[i][j] = null;
+            }
+        }
         this.freeLocations = new ArrayList<>();
         this.roundsCnt=0;
         this.numberTable = new ArrayList<>();
-        board = new Board(settings);
+        board = new Board();
         board.setToolBar(createToolBar());
         this.getChildren().add(board);
 
-        var trueProperty = new SimpleBooleanProperty(true);
+        BooleanProperty trueProperty = new SimpleBooleanProperty(true);
         board.clearGameProperty().and(trueProperty).addListener((ov, b1, b2) -> initializeGameGrid());
         board.resetGameProperty().and(trueProperty).addListener((ov, b1, b2) -> startGame());
-//        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
-//        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
+        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
+        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
 
         initializeGameGrid();
         startGame();
@@ -56,7 +62,7 @@ public class GameManager extends Group {
     private void initializeGameGrid() {
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                gameGrid[i][j] = null;
+                gameGrid[j][i] = null;
             }
         }
         updateFreeLocations();
@@ -69,7 +75,7 @@ public class GameManager extends Group {
         numberTable.add(new int[GRID_SIZE][GRID_SIZE]);
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                numberTable.get(roundsCnt)[i][j]=gameGrid[i][j]==null?0:gameGrid[i][j].getValue();
+                numberTable.get(roundsCnt-1)[j][i]=(gameGrid[j][i]==null)?0:gameGrid[j][i].getValue();
             }
         }
     }
@@ -92,8 +98,8 @@ public class GameManager extends Group {
     private void redrawTilesInGameGrid() {
         for(int i=0;i<GRID_SIZE;i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
-                if (gameGrid[i][j] != null) {
-                    board.addTile(gameGrid[i][j]);
+                if (gameGrid[j][i] != null) {
+                    board.addTile(gameGrid[j][i]);
                 }
             }
         }
@@ -102,6 +108,7 @@ public class GameManager extends Group {
     private boolean boundaryCheck(int x, int y){
         return x>=0 && x<GRID_SIZE && y>=0 && y<GRID_SIZE;
     }
+
     private void moveTiles(Direction direction) {
         synchronized (gameGrid) {
             if (movingTiles) {
@@ -119,30 +126,32 @@ public class GameManager extends Group {
         int movedCnt=0;
         for(int x=setXs;x>=0 && x<GRID_SIZE;x+=setXa){
             for(int y=setYs;y>=0 && y<GRID_SIZE;y+=setYa){
+                if(gameGrid[y][x]==null)continue;
                 int xp=x,yp=y;
                 var currentLocation = new Location(x, y);
-                while(boundaryCheck(x+xm,y+ym)&&gameGrid[yp+ym][xp+xm]==null){
+                while(boundaryCheck(xp+xm,yp+ym) && gameGrid[yp+ym][xp+xm]==null){
                     xp+=xm;
                     yp+=ym;
                 }
-                var tile0=gameGrid[x][y];
-                if(boundaryCheck(xp+xm,yp+ym)&& !gameGrid[x + xm][y + ym].isMerged() && Objects.equals(gameGrid[y + ym][x + xm].getValue(), gameGrid[y][x].getValue())){
-                    var tileF=gameGrid[x+xm][y+ym];
+                var tile0=gameGrid[y][x];
+                if(boundaryCheck(xp+xm,yp+ym)&& !gameGrid[yp + ym][xp + xm].isMerged() && Objects.equals(gameGrid[yp + ym][xp + xm].getValue(), gameGrid[y][x].getValue())){
+                    var tileF=gameGrid[yp+ym][xp+xm];
                     tileF.merge(tile0);
                     tileF.toFront();
                     parallelTransition.getChildren().add(animateExistingTile(tile0, tileF.getLocation()));
                     parallelTransition.getChildren().add(animateMergedTile(tileF));
-                    gameGrid[x+xm][y+ym]=tile0;
-                    gameGrid[x][y]=null;
                     mergedToBeRemoved.add(tile0);
+                    gameGrid[y][x]=null; //也许有问题
                     board.addPoints(tileF.getValue());
                     movedCnt++;
-                }else if(x!=xp && y!=yp){
+                }else if(x!=xp || y!=yp){
                     parallelTransition.getChildren().add(animateExistingTile(tile0, new Location(xp,yp)));
-                    gameGrid[xp][yp]=tile0;
-                    gameGrid[x][y]=null;
+                    gameGrid[yp][xp]=tile0;
+                    gameGrid[y][x]=null;
+                    tile0.setLocation(new Location(xp,yp));
                     movedCnt++;
                 }
+                System.out.println("x:"+x+" y:"+y+" xp:"+xp+" yp:"+yp+" movedCnt:"+movedCnt);
             }
         }//待检验
         board.animateScore();
@@ -152,9 +161,9 @@ public class GameManager extends Group {
                 board.removeTiles(mergedToBeRemoved);
                 for(int i=0;i<GRID_SIZE;i++){
                     for(int j=0;j<GRID_SIZE;j++){
-                        if(gameGrid[i][j]!=null){
-                            gameGrid[i][j].clearMerge();
-                        }
+                        if(gameGrid[i][j]==null)continue;
+                        gameGrid[i][j].clearMerge();
+
                     }
                 }
                 roundsCnt++;
@@ -194,8 +203,8 @@ public class GameManager extends Group {
         freeLocations.clear();
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                if(gameGrid[i][j]==null){
-                    freeLocations.add(new Location(j,i));
+                if(gameGrid[j][i]==null){
+                    freeLocations.add(new Location(i,j));
                 }
             }
         }
@@ -207,9 +216,9 @@ public class GameManager extends Group {
     private boolean mergeMovementsAvailable() {
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                if(gameGrid[i][j]==null) continue;
-                if(j+1<GRID_SIZE && Objects.equals(gameGrid[i][j].getValue(), gameGrid[i][j + 1].getValue())) return true;
-                if(i+1<GRID_SIZE && gameGrid[i][j].getValue().equals(gameGrid[i + 1][j].getValue())) return true;
+                if(gameGrid[j][i]==null) continue;
+                if(j+1<GRID_SIZE && Objects.equals(gameGrid[j][i].getValue(), gameGrid[j + 1][i].getValue())) return true;
+                if(i+1<GRID_SIZE && gameGrid[j][i].getValue().equals(gameGrid[j][i + 1].getValue())) return true;
             }
         }
         return false;
@@ -355,16 +364,16 @@ public class GameManager extends Group {
     /**
      * Ask to save the game from a properties file with confirmation
      */
-//    public void saveSession() {
-//        board.saveSession();
-//    }
+    public void saveSession() {
+        board.saveSession();
+    }
 
     /**
      * Save the game to a properties file, without confirmation
      */
-//    private void doSaveSession() {
-//        board.saveSession(numberTable.get(roundsCnt));
-//    }
+    private void doSaveSession() {
+        board.saveSession(gameGrid,roundsCnt);
+    }
 
     /**
      * Ask to restore the game from a properties file with confirmation
@@ -376,19 +385,19 @@ public class GameManager extends Group {
     /**
      * Restore the game from a properties file, without confirmation
      */
-//    private void doRestoreSession() {
-//        initializeGameGrid();
-//        if (board.restoreSession(gameGrid)) {
-//            redrawTilesInGameGrid();
-//        }
-//    }
+    private void doRestoreSession() {
+        initializeGameGrid();
+        if (board.restoreSession(gameGrid)) {
+            redrawTilesInGameGrid();
+        }
+    }
 
     /**
      * Save actual record to a properties file
      */
-    public void saveRecord() {
-        board.saveRecord();
-    }
+//    public void saveRecord() {
+//        board.saveRecord();
+//    }
 
     private HBox createToolBar() {
 //        var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
@@ -396,12 +405,12 @@ public class GameManager extends Group {
 //        var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReset", "Reset", t -> board.showTryAgainOverlay());
-        var btnSettings = createButtonItem("mSettings", "Settings", t -> board.aboutGame()); //about to modify
+//        var btnSettings = createButtonItem("mSettings", "Settings", t -> board.aboutGame()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
 //        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
-        var toolbar = new HBox(btnPause, btnReset, btnSettings, btnQuit);
+        var toolbar = new HBox(btnPause, btnReset, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));
         return toolbar;

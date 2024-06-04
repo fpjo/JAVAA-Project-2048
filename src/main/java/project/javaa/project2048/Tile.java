@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.Random;
 
-/**
- * @author Bruno Borges
- */
 public class Tile extends Label implements Serializable {
 
     private Integer value;

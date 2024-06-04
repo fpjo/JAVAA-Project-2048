@@ -11,6 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -25,7 +26,6 @@ public class StartPane extends VBox {
     private Label versionLabel;
     private Label userStatusLabel;
     private HBox bottomBox;
-    //    private SettingPane settingPane;
     public StartPane(Stage primaryStage) {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
@@ -72,17 +72,45 @@ public class StartPane extends VBox {
 //            stage.close();
 //        });
     }
-
+    private GamePane gamePane;
     private void setStartButton(Stage primaryStage) {
         startButton = new Button("Start");
         startButton.getStyleClass().add("start-button");
         startButton.setOnAction(e -> {
             System.out.println("Start button clicked");
-            GamePane gamePane = new GamePane(primaryStage);
-            Scene gameScene = new Scene(gamePane, 400, 600);
-            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
+            System.out.println("GamePane created");
+            gamePane = new GamePane();
+            Scene gameScene = new Scene(gamePane);
+            System.out.println("GameScene created");
+//            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
+            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
+            System.out.println("GameScene CSS added");
+            setGameBounds(primaryStage, gameScene);
+            System.out.println("GameBounds set");
+            setQuitListener(primaryStage);
+            System.out.println("QuitListener set");
             primaryStage.setScene(gameScene);
+            System.out.println("Scene set");
         });
+    }
+    private void setQuitListener(Stage primaryStage) {
+        primaryStage.setOnCloseRequest(t -> {
+            t.consume();
+            gamePane.getGameManager().quitGame();
+        });
+    }
+    private void setGameBounds(Stage primaryStage, Scene scene) {
+        var margin = GameSettings.MARGIN;
+        var gameBounds = gamePane.getGameManager().getLayoutBounds();
+        var visualBounds = Screen.getPrimary().getVisualBounds();
+        double factor = Math.min(visualBounds.getWidth() / (gameBounds.getWidth() + margin),
+                visualBounds.getHeight() / (gameBounds.getHeight() + margin));
+        primaryStage.setTitle("2048FX");
+        primaryStage.setScene(scene);
+        primaryStage.setMinWidth(gameBounds.getWidth() / 2d);
+        primaryStage.setMinHeight(gameBounds.getHeight() / 2d);
+        primaryStage.setWidth(((gameBounds.getWidth() + margin) * factor) / 1.5d);
+        primaryStage.setHeight(((gameBounds.getHeight() + margin) * factor) / 1.5d);
     }
     private void setExitButton(Stage primaryStage) {
         exitButton = new Button("Exit");

@@ -11,6 +11,7 @@ class GameState {
 
     final IntegerProperty gameScoreProperty = new SimpleIntegerProperty(0);
     final IntegerProperty gameBestProperty = new SimpleIntegerProperty(0);
+    final IntegerProperty gameRoundProperty = new SimpleIntegerProperty(0);
     final IntegerProperty gameMovePoints = new SimpleIntegerProperty(0);
     final BooleanProperty gameWonProperty = new SimpleBooleanProperty(false);
     final BooleanProperty gameOverProperty = new SimpleBooleanProperty(false);
