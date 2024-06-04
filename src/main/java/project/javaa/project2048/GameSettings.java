@@ -2,6 +2,8 @@ package project.javaa.project2048;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public enum GameSettings {
     private final File GameFolder;
     private static BooleanProperty isGuest = new SimpleBooleanProperty(true);
     private static String playerName = null;
-    private static String userCSS = "default.css";
+    public static final StringProperty userCSS = new SimpleStringProperty("default.css");
     private static int timeLimitInSeconds = 0;
     private static int stepLimit = 0;
     private static int GRID_SIZE = 4;
@@ -98,11 +100,11 @@ public enum GameSettings {
     }
 
     public static String getUserCSS() {
-        return userCSS;
+        return userCSS.get();
     }
 
     public static void setUserCSS(String userCSS) {
-        GameSettings.userCSS = userCSS;
+        GameSettings.userCSS.set(userCSS);
     }
 
     public void restore(Properties data) {
@@ -114,7 +116,7 @@ public enum GameSettings {
             } else if(key.equals("userMode")) {
                 mode = Mode.valueOf((String) value);
             } else if(key.equals("userCSS")) {
-                userCSS = (String) value;
+                userCSS.set((String) value);
             }
         });
     }

@@ -81,7 +81,12 @@ public class StartPane extends VBox {
             System.out.println("GamePane created");
             gamePane = new GamePane();
             Scene gameScene = new Scene(gamePane);
+
             gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
+            GameSettings.userCSS.addListener((observable, oldValue, newValue) -> {
+                gameScene.getStylesheets().clear();
+                gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(newValue)).toExternalForm());
+            });
 //            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
             setGameBounds(primaryStage, gameScene);
             setQuitListener(primaryStage);
