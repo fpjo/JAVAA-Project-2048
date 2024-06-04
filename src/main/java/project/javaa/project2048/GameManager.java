@@ -27,10 +27,10 @@ public class GameManager extends Group {
     private final ArrayList<Location> freeLocations;
     private final Tile[][] gameGrid;
     private final Set<Tile> mergedToBeRemoved = new HashSet<>();
-    private final ArrayList<int[][]> numberTable;
     private int roundsCnt;
 
     private final Board board;
+    private final GameState state = GameState.getInstance();
     private Animation shakingAnimation;
 
 //    public GameManager(){ this(GameSettings.LOCAL); }
@@ -44,8 +44,7 @@ public class GameManager extends Group {
             }
         }
         this.freeLocations = new ArrayList<>();
-        this.roundsCnt=0;
-        this.numberTable = new ArrayList<>();
+        state.gameRoundProperty.set(0);
         board = new Board();
         board.setToolBar(createToolBar());
         this.getChildren().add(board);
@@ -56,7 +55,6 @@ public class GameManager extends Group {
         board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
         board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
 
-        initializeGameGrid();
         startGame();
     }
     private void initializeGameGrid() {
@@ -68,18 +66,16 @@ public class GameManager extends Group {
         updateFreeLocations();
     }
     private void updateRound(){
-        roundsCnt++;
-        recordNumberTable();
-    }
-    private void recordNumberTable(){
-        numberTable.add(new int[GRID_SIZE][GRID_SIZE]);
+        int[][] table = new int[GRID_SIZE][GRID_SIZE];
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                numberTable.get(roundsCnt-1)[j][i]=(gameGrid[j][i]==null)?0:gameGrid[j][i].getValue();
+                table[j][i]=(gameGrid[j][i]==null)?0:gameGrid[j][i].getValue();
             }
         }
+        state.addTable(table);
     }
     private void startGame() {
+        initializeGameGrid();
         Collections.shuffle(freeLocations);
         var loc0= freeLocations.getFirst();
         gameGrid[loc0.getY()][loc0.getX()]=new Tile(2,loc0);
@@ -151,7 +147,6 @@ public class GameManager extends Group {
                     tile0.setLocation(new Location(xp,yp));
                     movedCnt++;
                 }
-                System.out.println("x:"+x+" y:"+y+" xp:"+xp+" yp:"+yp+" movedCnt:"+movedCnt);
             }
         }//待检验
         board.animateScore();
@@ -161,12 +156,11 @@ public class GameManager extends Group {
                 board.removeTiles(mergedToBeRemoved);
                 for(int i=0;i<GRID_SIZE;i++){
                     for(int j=0;j<GRID_SIZE;j++){
-                        if(gameGrid[i][j]==null)continue;
-                        gameGrid[i][j].clearMerge();
-
+                        if(gameGrid[j][i]==null)continue;
+                        gameGrid[j][i].clearMerge();
                     }
                 }
-                roundsCnt++;
+                updateRound();
                 updateFreeLocations();
                 if (freeLocations.isEmpty() && !mergeMovementsAvailable()) {
                     board.setGameOver(true);
@@ -378,9 +372,9 @@ public class GameManager extends Group {
     /**
      * Ask to restore the game from a properties file with confirmation
      */
-//    public void restoreSession() {
-//        board.restoreSession();
-//    }
+    public void restoreSession() {
+        board.restoreSession();
+    }
 
     /**
      * Restore the game from a properties file, without confirmation
@@ -400,17 +394,17 @@ public class GameManager extends Group {
 //    }
 
     private HBox createToolBar() {
-//        var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
-//        var btnLogin = createButtonItem("mLogin", "Login", t -> board.login());
-//        var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
+        var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
+        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
+        var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReset", "Reset", t -> board.showTryAgainOverlay());
-//        var btnSettings = createButtonItem("mSettings", "Settings", t -> board.aboutGame()); //about to modify
+        var btnSettings = createButtonItem("mSettings", "Settings", t -> board.showTryAgainOverlay()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
-//        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
-        var toolbar = new HBox(btnPause, btnReset, btnQuit);
+        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
+//        var toolbar = new HBox(btnPause, btnReset, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));
         return toolbar;

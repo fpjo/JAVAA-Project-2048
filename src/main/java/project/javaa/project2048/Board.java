@@ -42,7 +42,7 @@ public class Board extends Pane {
     private static final int GAP_HEIGHT = 50;
     private static final int TOOLBAR_HEIGHT = 80;
 
-    private final GameState state = new GameState();
+    private final GameState state = GameState.getInstance();
 
     private LocalTime time;
     private Timeline timer;
@@ -94,10 +94,10 @@ public class Board extends Pane {
     }
 
     private void createScore() {
-        var lblTitle = new Label("Project");
+        var lblTitle = new Label("2048");
         lblTitle.getStyleClass().addAll("game-label", "game-title");
 
-        var lblSubtitle = new Label("2048");
+        var lblSubtitle = new Label("Project");
         lblSubtitle.getStyleClass().addAll("game-label", "game-subtitle");
 
         var hFill = new HBox();
@@ -420,12 +420,12 @@ public class Board extends Pane {
     private void doResetGame() {
         doClearGame();
         state.resetGame();
+        state.clearState();
     }
 
     private void doClearGame() {
         gridGroup.getChildren().removeIf(c -> c instanceof Tile);
         getChildren().removeAll(overlay, buttonsOverlay);
-        state.clearState();
     }
 
     public void animateScore() {

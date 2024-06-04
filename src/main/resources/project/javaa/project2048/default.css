@@ -67,14 +67,13 @@
 
 .game-title {
     -fx-font-size: 80px;
-    -fx-fill: #776e65;
+    -fx-text-fill: #776e65;
 }
 .game-subtitle {
     -fx-font-size: 40px;
-    -fx-fill: #f2b179; // f9f6f2
+    -fx-text-fill: #776e65; // f9f6f2
     -fx-effect: dropshadow( three-pass-box, rgba(93, 218, 169, 1), 10, 0.5, 0, 0 ); // rgba(243, 215, 116, 1)
 }
-
 .game-overlay {
     -fx-font-size: 60px;
     -fx-fill: #f9f6f2;
@@ -207,49 +206,49 @@
 }
 .game-tile-2    {
     -fx-font-size: 55px;
-    -fx-fill: #776e65;
+    -fx-text-fill: #776e65;
     -fx-background-color: #eee4da;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-4    {
     -fx-font-size: 55px;
-    -fx-fill: #776e65;
+    -fx-text-fill: #776e65;
     -fx-background-color: #ede0c8;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-8    {
     -fx-font-size: 55px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #f2b179;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-16   {
     -fx-font-size: 55px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #f59563;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-32   {
     -fx-font-size: 55px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #f67c5f;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-64   {
     -fx-font-size: 55px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #f65e3b;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-128  {
     -fx-font-size: 45px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #edcf72;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -259,7 +258,7 @@
 }
 .game-tile-256  {
     -fx-font-size: 45px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #edcc61;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -269,7 +268,7 @@
 }
 .game-tile-512  {
     -fx-font-size: 45px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #edc850;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -279,7 +278,7 @@
 }
 .game-tile-1024 {
     -fx-font-size: 35px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #edc53f;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -289,7 +288,7 @@
 }
 .game-tile-2048 {
     -fx-font-size: 35px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #edc22e;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -299,35 +298,35 @@
 }
 .game-tile-4096   {
     -fx-font-size: 30px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #b885ac;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-8192   {
     -fx-font-size: 30px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #af6da9;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-16384 {
     -fx-font-size: 30px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #ab61a7;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-32768 {
     -fx-font-size: 30px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #a755a6;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
 .game-tile-65536, .game-tile-131072, .game-tile-262144 {
     -fx-font-size: 25px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
     -fx-background-color: #3c3a32;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -346,6 +345,9 @@ SVG ICONS https://icomoon.io/app/
 }
 #mSave:hover {
     -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0.5,0,0);
+}
+#mSave:hover {
+    -fx-effect: dropshadow(gaussian,derive(#776e65,-20%),10,0,0,0);
 }
 #mSave:pressed {
     -fx-translate-y: 2px;

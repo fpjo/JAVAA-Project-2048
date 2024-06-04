@@ -81,16 +81,12 @@ public class StartPane extends VBox {
             System.out.println("GamePane created");
             gamePane = new GamePane();
             Scene gameScene = new Scene(gamePane);
-            System.out.println("GameScene created");
-//            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
-            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
-            System.out.println("GameScene CSS added");
+            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.getUserCSS())).toExternalForm());
+//            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
             setGameBounds(primaryStage, gameScene);
-            System.out.println("GameBounds set");
             setQuitListener(primaryStage);
-            System.out.println("QuitListener set");
             primaryStage.setScene(gameScene);
-            System.out.println("Scene set");
+            gamePane.requestFocus();
         });
     }
     private void setQuitListener(Stage primaryStage) {
