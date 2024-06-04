@@ -187,7 +187,7 @@ public class SettingPane extends VBox {
     private HBox cssSetting;
     void setCSSSetting(){
         cssSettingOption = new ComboBox<>();
-        cssSettingOption.getItems().addAll("Default");
+        cssSettingOption.getItems().addAll("Default","CustomizedStyle");
         cssSettingOption.setValue("Default");
         cssSettingOption.setVisibleRowCount(3);
         cssSettingLabel = new Label("皮肤设置");
