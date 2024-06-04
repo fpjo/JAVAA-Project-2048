@@ -54,7 +54,6 @@ class GameState {
         Arrays.asList(clearGame, resetGame, restoreGame, saveGame, layerOnProperty, gameWonProperty, gameOverProperty,
                 gameAboutProperty, gamePauseProperty, gameTryAgainProperty, gameSaveProperty, gameRestoreProperty,
                 gameQuitProperty).forEach(a -> a.set(false));
-        tableList.clear();
         gameScoreProperty.set(0);
         gameRoundProperty.set(0);
         clearGame.set(true);
@@ -62,5 +61,8 @@ class GameState {
 
     public void resetGame() {
         resetGame.set(true);
+    }
+    public void clearTableList() {
+        tableList.clear();
     }
 }

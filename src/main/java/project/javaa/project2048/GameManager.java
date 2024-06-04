@@ -40,7 +40,7 @@ public class GameManager extends Group {
         this.gameGrid = new Tile[GRID_SIZE][GRID_SIZE];
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
-                gameGrid[i][j] = null;
+                gameGrid[j][i] = null;
             }
         }
         this.freeLocations = new ArrayList<>();
@@ -51,10 +51,15 @@ public class GameManager extends Group {
 
         BooleanProperty trueProperty = new SimpleBooleanProperty(true);
         board.clearGameProperty().and(trueProperty).addListener((ov, b1, b2) -> initializeGameGrid());
-        board.resetGameProperty().and(trueProperty).addListener((ov, b1, b2) -> startGame());
+        board.resetGameProperty().addListener((ov, b1, b2) -> {
+            if(b2) {
+                System.out.println("reset heard");
+                startGame();
+                board.resetGameProperty().set(false);
+            }
+        });
         board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
         board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
-
         startGame();
     }
     private void initializeGameGrid() {
@@ -83,6 +88,7 @@ public class GameManager extends Group {
         var loc1=freeLocations.getFirst();
         gameGrid[loc1.getY()][loc1.getX()]=new Tile(4,loc1);
         freeLocations.removeFirst();
+        state.clearTableList();
         updateRound();
         redrawTilesInGameGrid();
         board.startGame();

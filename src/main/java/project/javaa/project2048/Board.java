@@ -419,8 +419,8 @@ public class Board extends Pane {
 
     private void doResetGame() {
         doClearGame();
-        state.resetGame();
         state.clearState();
+        state.resetGame();
     }
 
     private void doClearGame() {
