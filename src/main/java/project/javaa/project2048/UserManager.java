@@ -50,10 +50,19 @@ public class UserManager {
         }
     }
 
-    public void register(String username, String password) {
+    public boolean register(String username, String password) {
+        for (Map.Entry<String, String> entry : userData.entrySet()) {
+            if (entry.getKey().equals(username)) {
+                return false;
+            }
+        }
+
         userData.put(username, password);
         saveUserDataToFile();
+
+        return true;
     }
+    //如果当前注册的用户名与已有用户重复则返回false，否则注册成功返回true
 
     public boolean login(String username, String password) {
         for (Map.Entry<String, String> entry : userData.entrySet()) {
@@ -64,4 +73,5 @@ public class UserManager {
 
         return false;
     }
+    //登录成功（账号密码匹配）返回true，否则返回false
 }
