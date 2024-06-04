@@ -47,7 +47,7 @@ class GameState {
         gameQuitProperty.set(false);
     }
     public void addTable(int[][] table) {
-        gameRoundProperty.add(1);
+        gameRoundProperty.set(gameRoundProperty.get() + 1);
         tableList.add(table);
     }
     public void clearState() {

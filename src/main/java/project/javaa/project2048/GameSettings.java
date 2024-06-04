@@ -18,8 +18,8 @@ public enum GameSettings {
     public final static int MARGIN = 36;
     private static Mode mode = Mode.NORMAL;
     private final File GameFolder;
-    private static BooleanProperty isGuest = new SimpleBooleanProperty(true);
-    private static String playerName = null;
+    private static BooleanProperty isGuest = new SimpleBooleanProperty(false); //testing
+    private static String playerName = "fpjo"; //testing
     public static final StringProperty userCSS = new SimpleStringProperty("default.css");
     private static int timeLimitInSeconds = 0;
     private static int stepLimit = 0;

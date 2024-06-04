@@ -58,7 +58,12 @@ public class GameManager extends Group {
                 board.resetGameProperty().set(false);
             }
         });
-        board.restoreGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doRestoreSession());
+        board.restoreGameProperty().addListener((ov, b1, b2) -> {
+            if(b2){
+                doRestoreSession();
+                board.restoreGameProperty().set(false);
+            }
+        });
         board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
         startGame();
     }
@@ -98,10 +103,12 @@ public class GameManager extends Group {
      * Redraws all tiles in the <code>gameGrid</code> object
      */
     private void redrawTilesInGameGrid() {
-        for(int i=0;i<GRID_SIZE;i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
-                if (gameGrid[j][i] != null) {
-                    board.addTile(gameGrid[j][i]);
+        synchronized (gameGrid){
+            for(int i=0;i<GRID_SIZE;i++) {
+                for (int j = 0; j < GRID_SIZE; j++) {
+                    if (gameGrid[j][i] != null) {
+                        board.addTile(gameGrid[j][i]);
+                    }
                 }
             }
         }
@@ -386,9 +393,17 @@ public class GameManager extends Group {
      * Restore the game from a properties file, without confirmation
      */
     private void doRestoreSession() {
+        System.out.println("Start restoring session...");
         initializeGameGrid();
-        if (board.restoreSession(gameGrid)) {
+        System.out.println("Game grid initialized.");
+        boolean flag= board.restoreSession(gameGrid);
+        System.out.println("Game state restored: " + flag);
+        if (flag) {
+            state.clearTableList();
+            updateRound();
             redrawTilesInGameGrid();
+            updateFreeLocations();
+            board.startGame();
         }
     }
 
@@ -401,7 +416,7 @@ public class GameManager extends Group {
 
     private HBox createToolBar() {
         var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
-        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
+//        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
         var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReset", "Reset", t -> board.showTryAgainOverlay());
@@ -409,7 +424,7 @@ public class GameManager extends Group {
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
-        var toolbar = new HBox(btnSave, btnLogin, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
+        var toolbar = new HBox(btnSave, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
 //        var toolbar = new HBox(btnPause, btnReset, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));

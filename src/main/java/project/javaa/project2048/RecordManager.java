@@ -1,6 +1,7 @@
 package project.javaa.project2048;
 
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,14 +14,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RecordManager {
     private final Properties props = new Properties();
-    private final int GRID_SIZE;
+    private int GRID_SIZE;
+    private final String recordFilename;
     private File userGameFolder;
 
     public RecordManager() {
-        GRID_SIZE = GameSettings.LOCAL.getGridSize();
+        GRID_SIZE=GameSettings.getGridSize();
+        recordFilename = "game2048_"+"record";
     }
 
     protected void saveRecord(Tile[][] gameGrid, Integer score, Integer round,Long time) {
@@ -28,8 +33,8 @@ public class RecordManager {
             return;
         }
         LocalDateTime now = LocalDateTime.now();
-        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
-        String recordFilename = "game2048_" + formattedDateTime +"_record.";
+        GRID_SIZE=GameSettings.getGridSize();
+//        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
         props.setProperty("score", score.toString());
         props.setProperty("round", round.toString());
         props.setProperty("grid_size", Integer.toString(GRID_SIZE));
@@ -40,7 +45,7 @@ public class RecordManager {
         props.setProperty("userCSS", GameSettings.getUserCSS());
         for(int i=0;i<GRID_SIZE;i++) {
             for(int j=0;j<GRID_SIZE;j++) {
-                props.setProperty("Location_" + i + "_" + j, gameGrid[i][j] != null ? gameGrid[i][j].getValue().toString() : "0");
+                props.setProperty("Location_" + j + "_" + i, gameGrid[j][i] != null ? gameGrid[j][i].getValue().toString() : "0");
             }
         }
         try {
@@ -62,7 +67,7 @@ public class RecordManager {
             try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
                 while (dis.read() != -1) ; //empty loop to clear the data
                 digest = md.digest();
-                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
+//                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
             }
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -74,11 +79,8 @@ public class RecordManager {
             e.printStackTrace();
         }
     }
-    protected boolean loadRecord(File recordFile, File recordHash) {
-        if (GameSettings.isGuest()) {
-            return false;
-        }
-        if (recordFile == null || recordHash == null) {
+    protected boolean checkHash(File recordFile){
+        if (recordFile == null) {
             return false;
         }
         try (FileInputStream fileInputStream = new FileInputStream(recordFile)) {
@@ -87,48 +89,84 @@ public class RecordManager {
             try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
                 while (dis.read() != -1) ; //empty loop to clear the data
                 digest = md.digest();
-                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
+//                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
             }
-            try (FileInputStream file = new FileInputStream(recordHash)) {
+            var hashFilePath = new File(recordFile.getParent(), recordFile.getName().replace(".properties", ".hash"));
+            try (FileInputStream file = new FileInputStream(hashFilePath)) {
                 byte[] hash = file.readAllBytes();
-                if (!Arrays.equals(digest, hash)) {
-                    return false;
-                }
+                return Arrays.equals(digest, hash);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            props.clear();
-            props.load(Files.newBufferedReader(recordFile.toPath()));
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+    private boolean isValidProperties(Properties props) {
+        String[] requiredKeys = {"score", "round", "grid_size", "isGuest", "time", "userName", "userMode", "userCSS"};
+        for (String key : requiredKeys) {
+            if (!props.containsKey(key)) {
+                return false;
+            }
+        }
         return true;
     }
-
-    protected boolean restoreRecord(Tile[][] gameGrid, Integer score, Integer round, StringProperty time) {
+    protected boolean loadRecord(Tile[][] gameGrid, StringProperty time) {
+        try {
+            var userDataPath = Path.of(GameSettings.LOCAL.getGameFolder().toString(), GameSettings.getPlayerName());
+            userGameFolder = Files.createDirectories(userDataPath).toFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (var reader = new FileReader(new File(userGameFolder, recordFilename + ".properties"))) {
+            props.clear();
+            props.load(reader);
+            if (!isValidProperties(props)) {
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            Logger.getLogger(RecordManager.class.getName()).log(Level.INFO, "Previous game record not found.");
+        } catch (IOException ex) {
+            Logger.getLogger(RecordManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        File recordFile = new File(userGameFolder, recordFilename + ".properties");
+        boolean hashFlag = checkHash(recordFile);
+        if (!hashFlag) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("请注意，存档可能被篡改");
+            alert.showAndWait();
+        }
         if(props.isEmpty()) {
             return false;
         }
         if(props.getProperty("grid_size") == null || Integer.parseInt(props.getProperty("grid_size")) != GRID_SIZE) {
             return false;
         }
-        if(!Boolean.parseBoolean(props.getProperty("isGuest")) && !Objects.equals(props.getProperty("userName"), GameSettings.getPlayerName())) {
+        if(Boolean.parseBoolean(props.getProperty("isGuest")) || !Objects.equals(props.getProperty("userName"), GameSettings.getPlayerName())) {
             return false;
         }
         GameSettings.LOCAL.restore(props);
         for(int i=0;i<GRID_SIZE;i++) {
             for(int j=0;j<GRID_SIZE;j++) {
-                var val = props.getProperty("Location_" + i + "_" + j);
+                var val = props.getProperty("Location_" + j + "_" + i);
                 if (!val.equals("0")) {
                     var tile = Tile.newTile(Integer.parseInt(val));
                     tile.setLocation(new Location(i,j));
-                    gameGrid[i][j] = tile;
+                    gameGrid[j][i] = tile;
+                }else{
+                    gameGrid[j][i]=null;
                 }
             }
         }
         time.set(props.getProperty("time"));
-        score = Integer.parseInt(props.getProperty("score"));
-        round = Integer.parseInt(props.getProperty("round"));
+        int score=Integer.parseInt(props.getProperty("score"));
+        int round=Integer.parseInt(props.getProperty("round"));
+        System.out.println("loadRecord: sc"+score+" ro"+round);
+        GameState.getInstance().gameMovePoints.set(score);
+        GameState.getInstance().gameRoundProperty.set(round);
         return true;
     }
 }

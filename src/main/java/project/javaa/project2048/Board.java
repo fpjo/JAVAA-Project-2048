@@ -426,6 +426,7 @@ public class Board extends Pane {
     private void doClearGame() {
         gridGroup.getChildren().removeIf(c -> c instanceof Tile);
         getChildren().removeAll(overlay, buttonsOverlay);
+        state.clearState();
     }
 
     public void animateScore() {
@@ -556,7 +557,7 @@ public class Board extends Pane {
      */
     public void saveSession(Tile[][] gameGrid,int roundCnt) {
         state.saveGame.set(false);
-        sessionManager.saveRecord(gameGrid, state.gameScoreProperty.getValue(), roundCnt,
+        sessionManager.saveRecord(gameGrid, state.gameScoreProperty.getValue(), state.gameRoundProperty.getValue(),
                 LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay());
         keepGoing();
     }
@@ -575,15 +576,15 @@ public class Board extends Pane {
         doClearGame();
         timer.stop();
         var sTime = new SimpleStringProperty("");
-        int score=0,roundCnt=0;
-        sessionManager.restoreRecord(gameGrid, score , roundCnt, sTime);
-        if (score >= 0) {
-            state.gameScoreProperty.set(score);
+        boolean flag = sessionManager.loadRecord(gameGrid, sTime);
+        if(flag) {
+            System.out.println("sTime+"+sTime.get());
+            System.out.println("Restoring game");
             // check tiles>=2048
             state.gameWonProperty.set(false);
             for (int i = 0; i < GridSize; i++)
                 for (int j = 0; j < GridSize; j++)
-                    if (gameGrid[i][j] != null && gameGrid[i][j].getValue() >= GameManager.FINAL_VALUE_TO_WIN) {
+                    if (gameGrid[j][i] != null && gameGrid[j][i].getValue() >= GameManager.FINAL_VALUE_TO_WIN) {
                         state.gameWonProperty.removeListener(wonListener);
                         state.gameWonProperty.set(true);
                         state.gameWonProperty.addListener(wonListener);
@@ -593,9 +594,10 @@ public class Board extends Pane {
             }
             timer.play();
             return true;
+        }else{
+            doResetGame();
         }
         // not session found, restart again
-        doResetGame();
         return false;
     }
 

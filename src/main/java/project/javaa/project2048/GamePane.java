@@ -62,7 +62,9 @@ public class GamePane extends StackPane {
                     stage.setFullScreen(!stage.isFullScreen());
                 }
                 default -> {
-                    if (keyCode.isArrowKey()) move(Direction.valueFor(keyCode));
+                    if (keyCode.isArrowKey()) {
+                        move(Direction.valueFor(keyCode));
+                    }
                 }
             }
         });
