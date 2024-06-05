@@ -521,9 +521,7 @@ public class Board extends Pane {
             for (int i = 0; i < GridSize; i++)
                 for (int j = 0; j < GridSize; j++)
                     if (gameGrid[j][i] != null && gameGrid[j][i].getValue() >= GameManager.FINAL_VALUE_TO_WIN) {
-                        state.gameWonProperty.removeListener(wonListener);
                         state.gameWonProperty.set(true);
-                        state.gameWonProperty.addListener(wonListener);
                     }
             if (!sTime.get().isEmpty()) {
                 time = LocalTime.now().minusNanos(Long.parseLong(sTime.get()));
