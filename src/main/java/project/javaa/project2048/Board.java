@@ -49,7 +49,6 @@ public class Board extends Pane {
     private final StringProperty clock = new SimpleStringProperty("00:00:00");
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
 
-    // User Interface controls
     private final VBox vGame = new VBox(0);
     private final Group gridGroup = new Group();
 
@@ -65,7 +64,6 @@ public class Board extends Pane {
     private final Label lOvrSubText = new Label();
     private final HBox buttonsOverlay = new HBox();
 
-    // Overlay Buttons
     private final Button bTry = new Button("Try again");
     private final Button bContinue = new Button("Keep going");
     private final Button bContinueNo = new Button("No, keep going");
@@ -162,7 +160,6 @@ public class Board extends Pane {
     private Rectangle createCell(int i, int j) {
         final double arcSize = CELL_SIZE / 6d;
         var cell = new Rectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        // provide default style in case css are not loaded
         cell.setFill(Color.RED);
         cell.setStroke(Color.GREY);
         cell.setArcHeight(arcSize);
@@ -187,7 +184,6 @@ public class Board extends Pane {
         hBottom.setPrefSize(gridDimension, gridDimension);
         hBottom.setMaxSize(gridDimension, gridDimension);
 
-        // Clip hBottom to keep the drop-shadow effects within the hBottom
         var rect = new Rectangle(gridDimension, gridDimension);
         hBottom.setClip(rect);
         hBottom.getChildren().add(gridGroup);
@@ -519,7 +515,6 @@ public class Board extends Pane {
         if(flag) {
             System.out.println("sTime+"+sTime.get());
             System.out.println("Restoring game");
-            // check tiles>=2048
             state.gameWonProperty.set(false);
             for (int i = 0; i < GridSize; i++)
                 for (int j = 0; j < GridSize; j++)
