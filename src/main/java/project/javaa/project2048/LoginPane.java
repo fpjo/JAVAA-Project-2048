@@ -49,8 +49,8 @@ public class LoginPane extends VBox {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if(userManager.login(username, password)){
-                GameSettings.setIsGuest(false);
                 GameSettings.setPlayerName(username);
+                GameSettings.setIsGuest(false);
                 stage.close();
             }else{
                 usernameField.clear();

@@ -47,6 +47,7 @@ public class GameManager extends Group {
         state.gameRoundProperty.set(0);
         board = new Board();
         board.setToolBar(createToolBar());
+        board.setOperatorBar(createOperatorBar());
         this.getChildren().add(board);
 
         BooleanProperty trueProperty = new SimpleBooleanProperty(true);
@@ -64,7 +65,11 @@ public class GameManager extends Group {
                 board.restoreGameProperty().set(false);
             }
         });
-        board.saveGameProperty().and(trueProperty).addListener((ov, b1, b2) -> doSaveSession());
+        board.saveGameProperty().addListener((ov, b1, b2) -> {
+            if(b2) {
+                doSaveSession();
+            }
+        });
         startGame();
     }
     private void initializeGameGrid() {
@@ -413,18 +418,27 @@ public class GameManager extends Group {
 //    public void saveRecord() {
 //        board.saveRecord();
 //    }
-
+    private HBox createOperatorBar(){
+        var btnUp = createButtonItem("mUp", "Move Up", t -> move(Direction.UP));
+        var btnDown = createButtonItem("mDown", "Move Down", t -> move(Direction.DOWN));
+        var btnLeft = createButtonItem("mLeft", "Move Left", t -> move(Direction.LEFT));
+        var btnRight = createButtonItem("mRight", "Move Right", t -> move(Direction.RIGHT));
+        var operatorBar = new HBox(btnUp, btnDown, btnLeft, btnRight);
+        operatorBar.setAlignment(Pos.CENTER);
+        operatorBar.setPadding(new Insets(10.0));
+        return operatorBar;
+    }
     private HBox createToolBar() {
         var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
 //        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
         var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReplay", "Reset", t -> board.showTryAgainOverlay());
-        var btnSettings = createButtonItem("mUp", "Settings", t -> board.showTryAgainOverlay()); //about to modify
+//        var btnSettings = createButtonItem("mUp", "Settings", t -> board.showTryAgainOverlay()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
-        var toolbar = new HBox(btnSave, btnRestore, btnPause, btnReset, btnSettings, btnQuit);
+        var toolbar = new HBox(btnSave, btnRestore, btnPause, btnReset, btnQuit);
 //        var toolbar = new HBox(btnPause, btnReset, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));

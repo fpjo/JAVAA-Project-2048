@@ -63,7 +63,6 @@ public class UserManager {
 
         userData.put(username, password);
         saveUserDataToFile();
-
         return true;
     }
     //如果当前注册的用户名与已有用户重复则返回false，否则注册成功返回true

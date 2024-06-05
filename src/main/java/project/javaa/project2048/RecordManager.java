@@ -30,6 +30,11 @@ public class RecordManager {
 
     protected void saveRecord(Tile[][] gameGrid, Integer score, Integer round,Long time) {
         if(GameSettings.isGuest()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("游客模式下无法存入存档");
+            alert.showAndWait();
             return;
         }
         LocalDateTime now = LocalDateTime.now();
@@ -113,6 +118,14 @@ public class RecordManager {
         return true;
     }
     protected boolean loadRecord(Tile[][] gameGrid, StringProperty time) {
+        if(GameSettings.isGuest()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("游客模式下无法读取存档");
+            alert.showAndWait();
+            return false;
+        }
         try {
             var userDataPath = Path.of(GameSettings.LOCAL.getGameFolder().toString(), GameSettings.getPlayerName());
             userGameFolder = Files.createDirectories(userDataPath).toFile();
@@ -132,8 +145,10 @@ public class RecordManager {
             alert.setHeaderText(null);
             alert.setContentText("存档不存在");
             alert.showAndWait();
+            return false;
         } catch (IOException ex) {
             Logger.getLogger(RecordManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         File recordFile = new File(userGameFolder, recordFilename + ".properties");
         boolean hashFlag = checkHash(recordFile);

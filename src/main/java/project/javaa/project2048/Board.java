@@ -74,6 +74,7 @@ public class Board extends Pane {
     private final Button bQuit = new Button("Quit");
 
     private final HBox hToolbar = new HBox();
+    private final HBox hOperatorbar = new HBox();
 
     private final Label lblTime = new Label();
 
@@ -89,6 +90,7 @@ public class Board extends Pane {
 
         createScore();
         createGrid();
+        createOperatorBar();
         createToolBar();
         initGameProperties();
     }
@@ -121,10 +123,10 @@ public class Board extends Pane {
         vRecord.setAlignment(Pos.CENTER);
         vRecord.getStyleClass().add("game-vbox");
 
-        var lblTitBest = new Label("BEST");
+        var lblTitBest = new Label("ROUND");
         lblTitBest.getStyleClass().addAll("game-label", "game-titScore");
         lblBest.getStyleClass().addAll("game-label", "game-score");
-        lblBest.textProperty().bind(state.gameBestProperty.asString());
+        lblBest.textProperty().bind(state.gameRoundProperty.asString());
         vRecord.getChildren().addAll(lblTitBest, lblBest);
         hScores.getChildren().addAll(vScore, vRecord);
 
@@ -196,9 +198,9 @@ public class Board extends Pane {
     private void createToolBar() {
         // toolbar
         var hPadding = new HBox();
-        hPadding.setMinSize(gridDimension, TOOLBAR_HEIGHT);
-        hPadding.setPrefSize(gridDimension, TOOLBAR_HEIGHT);
-        hPadding.setMaxSize(gridDimension, TOOLBAR_HEIGHT);
+        hPadding.setMinSize(gridDimension, -20);
+        hPadding.setPrefSize(gridDimension, -20);
+        hPadding.setMaxSize(gridDimension, -20);
 
         hToolbar.setAlignment(Pos.CENTER);
         hToolbar.getStyleClass().add("game-backGrid");
@@ -209,7 +211,26 @@ public class Board extends Pane {
         vGame.getChildren().add(hPadding);
         vGame.getChildren().add(hToolbar);
     }
+    private void createOperatorBar() {
+        var hPadding = new HBox();
+        hPadding.setMinSize(gridDimension, TOOLBAR_HEIGHT);
+        hPadding.setPrefSize(gridDimension, TOOLBAR_HEIGHT);
+        hPadding.setMaxSize(gridDimension, TOOLBAR_HEIGHT);
 
+        hOperatorbar.setAlignment(Pos.CENTER);
+        hOperatorbar.getStyleClass().add("game-backGrid");
+        hOperatorbar.setMinSize(gridDimension, TOOLBAR_HEIGHT);
+        hOperatorbar.setPrefSize(gridDimension, TOOLBAR_HEIGHT);
+        hOperatorbar.setMaxSize(gridDimension, TOOLBAR_HEIGHT);
+
+        vGame.getChildren().add(hPadding);
+        vGame.getChildren().add(hOperatorbar);
+    }
+    protected void setOperatorBar(HBox operatorBar) {
+        operatorBar.disableProperty().bind(state.layerOnProperty);
+        operatorBar.spacingProperty().bind(Bindings.divide(vGame.widthProperty(), 10));
+        hOperatorbar.getChildren().add(operatorBar);
+    }
     protected void setToolBar(HBox toolbar) {
         toolbar.disableProperty().bind(state.layerOnProperty);
         toolbar.spacingProperty().bind(Bindings.divide(vGame.widthProperty(), 10));
@@ -396,7 +417,7 @@ public class Board extends Pane {
 //                state.layerOnProperty.set(true);
 //            }
 //        });
-        state.gameQuitProperty.addListener(new Overlay("Quit Game?", "Non saved data will be lost", bQuit, bContinueNo,
+        state.gameQuitProperty.addListener(new Overlay("Quit Game?", "Non saved data may be lost", bQuit, bContinueNo,
                 "game-overlay-quit", "game-lblQuit"));
         state.gameScoreProperty.addListener((ov, i, i1) -> {
             if (i1.intValue() > state.gameBestProperty.get()) {
@@ -594,10 +615,8 @@ public class Board extends Pane {
             }
             timer.play();
             return true;
-        }else{
-            doResetGame();
         }
-        // not session found, restart again
+        doResetGame();
         return false;
     }
 

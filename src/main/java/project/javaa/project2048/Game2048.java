@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class Game2048 extends Application {
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.0.1";
 //    private GamePane gamePane;
     private StartPane startPane;
     private static Game2048 applicationInstance;
@@ -33,7 +33,7 @@ public class Game2048 extends Application {
         var visualBounds = Screen.getPrimary().getVisualBounds();
         double factor = Math.min(visualBounds.getWidth() / (gameBounds.getWidth() + margin),
                 visualBounds.getHeight() / (gameBounds.getHeight() + margin));
-        primaryStage.setTitle("2048FX");
+        primaryStage.setTitle("Project2048");
         primaryStage.setMinWidth(gameBounds.getWidth() / 2d);
         primaryStage.setMinHeight(gameBounds.getHeight() / 2d);
         primaryStage.setWidth(((gameBounds.getWidth() + margin) * factor) / 1.5d);

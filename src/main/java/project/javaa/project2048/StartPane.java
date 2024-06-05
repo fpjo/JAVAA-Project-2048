@@ -43,6 +43,9 @@ public class StartPane extends VBox {
 
         versionLabel = new Label("Version: " + Game2048.VERSION);
         userStatusLabel = new Label((GameSettings.isGuest()? "Guest" : "User:" + GameSettings.getPlayerName()));
+        GameSettings.isGuest.addListener((observable, oldValue, newValue) -> {
+            userStatusLabel.setText((newValue? "Guest" : "User:" + GameSettings.getPlayerName()));
+        });
         versionLabel.getStyleClass().add("version-label");
         userStatusLabel.getStyleClass().add("user-status-label");
         bottomBox = new HBox(versionLabel, new Region(), userStatusLabel);
