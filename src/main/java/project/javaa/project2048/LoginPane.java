@@ -13,7 +13,6 @@ public class LoginPane extends VBox {
     private Button registerButton;
     private GridPane grid;
     private static final UserManager userManager=new UserManager();
-//    private Button resetPwdButton;
 
     public LoginPane(Stage stage) {
         this.setAlignment(Pos.CENTER);
@@ -68,7 +67,6 @@ public class LoginPane extends VBox {
 
     private void setRegisterButton(Stage stage) {
         registerButton = new Button("Register");
-//        registerButton.getStyleClass().add("register-button");
         grid.add(registerButton, 1, 4);
         registerButton.setOnAction(e -> {
             if(userManager.register(usernameField.getText(), passwordField.getText())) {
@@ -90,24 +88,6 @@ public class LoginPane extends VBox {
                 alert.getButtonTypes().setAll(buttonTypeOk);
                 alert.showAndWait();
             }
-        });
-    }
-
-//    private void setResetPwdButton(Stage stage) {}
-
-    private void setUsernameTextField(Stage stage) {
-        usernameField = new TextField("UserName");
-        usernameField.getStyleClass().add("username-field");
-        usernameField.setOnKeyPressed(e -> {
-
-        });
-    }
-
-    private void setPasswordTextField(Stage stage) {
-        passwordField = new PasswordField();
-        passwordField.getStyleClass().add("password-field");
-        passwordField.setOnKeyPressed(e -> {
-
         });
     }
 }
