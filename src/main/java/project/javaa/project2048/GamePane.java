@@ -16,8 +16,6 @@ public class GamePane extends StackPane {
     private final Bounds gameBounds;
 
     static {
-        // Downloaded from https://01.org/clear-sans/blogs
-        // The font may be used and redistributed under the terms of the Apache License 2.0
         Font.loadFont(Objects.requireNonNull(Game2048.class.getResource("FiraCode-Retina.ttf")).toExternalForm(), 10.0);
     }
 
@@ -51,8 +49,6 @@ public class GamePane extends StackPane {
             var keyCode = ke.getCode();
             switch (keyCode) {
                 case CONTROL, COMMAND -> cmdCtrlKeyPressed.set(true);
-//                case S -> gameManager.saveRecord();
-//                case R -> gameManager.reverseRecord();
                 case P -> gameManager.pauseGame();
                 case Q -> {
                     if (!cmdCtrlKeyPressed.get()) gameManager.quitGame();
