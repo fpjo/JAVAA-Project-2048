@@ -419,8 +419,8 @@ public class GameManager extends Group {
 //        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
         var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
-        var btnReset = createButtonItem("mReset", "Reset", t -> board.showTryAgainOverlay());
-        var btnSettings = createButtonItem("mSettings", "Settings", t -> board.showTryAgainOverlay()); //about to modify
+        var btnReset = createButtonItem("mReplay", "Reset", t -> board.showTryAgainOverlay());
+        var btnSettings = createButtonItem("mUp", "Settings", t -> board.showTryAgainOverlay()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 

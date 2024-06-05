@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project2048.LoginController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: B99470;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane layoutX="5.0" layoutY="7.0" prefHeight="585.0" prefWidth="790.0" style="-fx-background-color: FFFBDA; -fx-background-radius: 10; -fx-border-radius: 10;">
+               <children>
+                  <Button fx:id="login" alignment="CENTER" graphicTextGap="6.0" layoutX="125.0" layoutY="389.0" mnemonicParsing="false" onAction="#loginEvent" prefHeight="33.0" prefWidth="129.0" style="-fx-background-color: E2DFD0; -fx-background-radius: 5; -fx-border-radius: 5;" text="LOGIN" textAlignment="CENTER" textFill="#797870">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Button>
+                  <Text fill="#807c7a" fontSmoothingType="LCD" layoutX="125.0" layoutY="154.0" stroke="#f8f8f8" strokeType="INSIDE" strokeWidth="0.0" text="User Login" textAlignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="CENTER_LEFT" layoutX="126.0" layoutY="217.0" prefHeight="49.0" prefWidth="358.0" style="-fx-border-color: BEBFC1; -fx-border-radius: 5; -fx-background-radius: 5;">
+                     <children>
+                        <FontAwesomeIcon fill="#7b7575" glyphName="ENVELOPE" glyphStyle="-fx-fill#BEBFC1" selectionEnd="5" selectionFill="#fdfbfb" selectionStart="5" size="22.5" tabSize="0" wrappingWidth="34.66662788391113">
+                           <font>
+                              <Font name="Agency FB" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <TextField fx:id="emailAdress" onAction="#emailAdressEvent" prefHeight="37.0" prefWidth="314.0" promptText="Email Address" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets left="15.0" />
+                     </opaqueInsets>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="125.0" layoutY="299.0" prefHeight="49.0" prefWidth="360.0" style="-fx-border-color: BEBFC1; -fx-border-radius: 5; -fx-background-radius: 5;">
+                     <children>
+                        <GlyphsStack styleClass="envelop" />
+                        <FontAwesomeIcon fill="#7b7575" glyphName="KEY" glyphStyle="-fx-fill#BEBFC1" selectionEnd="5" selectionFill="#fdfbfb" selectionStart="5" size="30" tabSize="0" wrappingWidth="30.0">
+                           <font>
+                              <Font name="Agency FB" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <PasswordField fx:id="password" onAction="#passwordEvent" prefHeight="37.0" prefWidth="307.0" promptText="Password" style="-fx-background-color: transparent;">
+                           <font>
+                              <Font name="System Italic" size="18.0" />
+                           </font>
+                        </PasswordField>
+                     </children>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets left="10.0" />
+                     </opaqueInsets>
+                  </HBox>
+                  <Text fx:id="PasswordIncorrect" fill="#ff1f17" layoutX="150.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD INCORRECT" textAlignment="CENTER" wrappingWidth="310.24029541015625">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="AccountNotExist" fill="#ff1f17" layoutX="149.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER DOES NOT EXIST" textAlignment="CENTER" wrappingWidth="310.24029541015625">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+               </children></AnchorPane>
+            <Button fx:id="back" alignment="CENTER" graphicTextGap="6.0" layoutX="656.0" layoutY="533.0" mnemonicParsing="false" onAction="#toWelcomeEvent" prefHeight="33.0" prefWidth="129.0" style="-fx-background-color: E2DFD0; -fx-background-radius: 5; -fx-border-radius: 5;" text="BACK" textAlignment="CENTER" textFill="#797870">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Button>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

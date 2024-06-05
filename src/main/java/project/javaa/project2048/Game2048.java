@@ -17,7 +17,7 @@ public class Game2048 extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("2048 Game");
         startPane = new StartPane(primaryStage);
-        Scene startScene = new Scene(startPane, 600, 600);
+        Scene startScene = new Scene(startPane, 400, 500);
         startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
         setGameBounds(primaryStage, startScene);
         primaryStage.setScene(startScene);
@@ -38,24 +38,5 @@ public class Game2048 extends Application {
         primaryStage.setMinHeight(gameBounds.getHeight() / 2d);
         primaryStage.setWidth(((gameBounds.getWidth() + margin) * factor) / 1.5d);
         primaryStage.setHeight(((gameBounds.getHeight() + margin) * factor) / 1.5d);
-    }
-    public interface URLOpener {
-        void open(String url);
-    }
-    public static URLOpener urlOpener() {
-        return (url) -> getInstance().getHostServices().showDocument(url);
-    }
-    private synchronized static Game2048 getInstance() {
-        if (applicationInstance == null) {
-            while (applicationInstance == null) {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return applicationInstance;
     }
 }

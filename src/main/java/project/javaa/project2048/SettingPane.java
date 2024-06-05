@@ -18,8 +18,8 @@ public class SettingPane extends VBox {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
         this.getStyleClass().add("game-root");
-        Text title = new Text("Settings");
-        title.getStyleClass().add("game-title");
+        Label title = new Label("Settings");
+        title.getStyleClass().addAll("game-title","game-label");
 
         setGameMode();
         setGridSize();
@@ -129,7 +129,7 @@ public class SettingPane extends VBox {
     void setFinalValueToWin(){
         finalValueToWinOption = new ComboBox<>();
         int val=16;
-        for(int i=0;i<16;i++){
+        for(int i=0;i<15;i++){
             finalValueToWinOption.getItems().add(val);
             val*=2;
         }

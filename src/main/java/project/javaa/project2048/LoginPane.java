@@ -2,6 +2,7 @@ package project.javaa.project2048;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
@@ -19,16 +20,26 @@ public class LoginPane extends VBox {
         this.setAlignment(Pos.CENTER);
         this.setSpacing(20);
         this.getStyleClass().add("game-root");
-        Text title = new Text("Login");
+        Label title = new Label("Sign in to Continue");
         title.getStyleClass().add("game-title");
-
+        Label usernameLabel = new Label("Username");
+        usernameLabel.getStyleClass().add("game-label");
+        Label passwordLabel = new Label("Password");
+        passwordLabel.getStyleClass().add("game-label");
         setUsernameTextField(stage);
         setPasswordTextField(stage);
-//        setResetPwdButton(stage);
         setLoginButton(stage);
         setRegisterButton(stage);
+        loginButton.setAlignment(Pos.CENTER);
 
-        this.getChildren().addAll(title, usernameField, passwordField, loginButton, registerButton);
+        VBox VContainer = new VBox();
+        VContainer.setAlignment(Pos.CENTER_LEFT);
+        VContainer.setSpacing(10);
+        VContainer.setStyle("-fx-background-color: rgba(211, 211, 211, 0.5);");
+        VContainer.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, loginButton, registerButton);
+//        setResetPwdButton(stage);
+
+        this.getChildren().addAll(title, VContainer);
     }
 
     private void setLoginButton(Stage stage) {

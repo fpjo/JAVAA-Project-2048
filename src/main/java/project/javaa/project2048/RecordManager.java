@@ -127,6 +127,11 @@ public class RecordManager {
             }
         } catch (FileNotFoundException e) {
             Logger.getLogger(RecordManager.class.getName()).log(Level.INFO, "Previous game record not found.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("存档不存在");
+            alert.showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(RecordManager.class.getName()).log(Level.SEVERE, null, ex);
         }

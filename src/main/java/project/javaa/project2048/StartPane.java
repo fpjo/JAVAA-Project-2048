@@ -31,13 +31,14 @@ public class StartPane extends VBox {
         this.setSpacing(20);
         this.getStyleClass().add("game-root");
 
-        Text title = new Text("Game 2048");
-        title.getStyleClass().add("game-title");
+        Label title = new Label("2048");
+        title.getStyleClass().addAll("game-title","game-label");
 
         setStartButton(primaryStage);
         setExitButton(primaryStage);
         setSettingButton(primaryStage);
-        setLoadButton(primaryStage);
+        setLoginButton(primaryStage);
+//        setLoadButton(primaryStage);
         setLoginButton(primaryStage);
 
         versionLabel = new Label("Version: " + Game2048.VERSION);
@@ -49,28 +50,24 @@ public class StartPane extends VBox {
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setPadding(new Insets(10, 10, 10, 10));
 
-        this.getChildren().addAll(title, startButton, loginButton, loadButton, settingButton, exitButton, bottomBox);
+        this.getChildren().addAll(title, startButton, loginButton, settingButton, exitButton, bottomBox);
     }
 
     private void setLoginButton(Stage primaryStage) {
         loginButton = new Button("Login");
         loginButton.getStyleClass().add("login-button");
-//        loginButton.setOnAction(e -> {
-//            System.out.println("Login button clicked");
-//            Stage stage = new Stage();
-//            LoginPane loginPane = new LoginPane(stage);
-//            Scene loginScene = new Scene(loginPane, 400, 600);
-//            URL cssUrl = getClass().getResource(GameSettings.getUserCSS());
-//            if (cssUrl == null) {
-//                throw new RuntimeException("Cannot find CSS file: " + GameSettings.getUserCSS());
-//            }
-//            loginScene.getStylesheets().add(cssUrl.toExternalForm());
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.setTitle("Login");
-//            stage.setScene(loginScene);
-//            stage.showAndWait();
-//            stage.close();
-//        });
+        loginButton.setOnAction(e -> {
+            System.out.println("Login button clicked");
+            Stage stage = new Stage();
+            LoginPane loginPane = new LoginPane(stage);
+            Scene loginScene = new Scene(loginPane, 400, 600);
+            loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Login");
+            stage.setScene(loginScene);
+            stage.showAndWait();
+            stage.close();
+        });
     }
     private GamePane gamePane;
     private void setStartButton(Stage primaryStage) {
@@ -129,11 +126,7 @@ public class StartPane extends VBox {
             Stage stage = new Stage();
             SettingPane settingPane = new SettingPane(stage);
             Scene settingScene = new Scene(settingPane, 400, 600);
-            URL cssUrl = getClass().getResource(GameSettings.getUserCSS());
-            if (cssUrl == null) {
-                throw new RuntimeException("Cannot find CSS file: " + GameSettings.getUserCSS());
-            }
-            settingScene.getStylesheets().add(cssUrl.toExternalForm());
+            settingScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Settings");
             stage.setScene(settingScene);
@@ -145,12 +138,8 @@ public class StartPane extends VBox {
         loadButton = new Button("Load");
         loadButton.getStyleClass().add("load-button");
         loadButton.disableProperty().bind(GameSettings.isGuestProperty().not());
-//        loadRecordButton.setOnAction(e -> {
-//            System.out.println("Load Record button clicked");
-//            RecordPane recordPane = new RecordPane(primaryStage);
-//            Scene recordScene = new Scene(recordPane, 400, 600);
-//            recordScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(GameSettings.LOCAL.getCss())).toExternalForm());
-//            primaryStage.setScene(recordScene);
-//        });
+        loadButton.setOnAction(e -> {
+            System.out.println("Load Record button clicked");
+        });
     }
 }
