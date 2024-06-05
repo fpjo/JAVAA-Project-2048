@@ -13,6 +13,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -510,8 +511,9 @@ public class Board extends Pane {
         state.restoreGame.set(false);
         doClearGame();
         timer.stop();
+        SimpleIntegerProperty score= new SimpleIntegerProperty(),round = new SimpleIntegerProperty();
         var sTime = new SimpleStringProperty("");
-        boolean flag = sessionManager.loadRecord(gameGrid, sTime);
+        boolean flag = sessionManager.loadRecord(gameGrid, score, round,sTime);
         if(flag) {
             System.out.println("sTime+"+sTime.get());
             System.out.println("Restoring game");
@@ -526,6 +528,8 @@ public class Board extends Pane {
             if (!sTime.get().isEmpty()) {
                 time = LocalTime.now().minusNanos(Long.parseLong(sTime.get()));
             }
+            state.gameScoreProperty.set(score.get());
+            state.gameRoundProperty.set(round.get());
             timer.play();
             return true;
         }

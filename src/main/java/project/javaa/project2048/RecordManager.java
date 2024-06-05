@@ -1,5 +1,6 @@
 package project.javaa.project2048;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 
@@ -114,7 +115,7 @@ public class RecordManager {
         }
         return true;
     }
-    protected boolean loadRecord(Tile[][] gameGrid, StringProperty time) {
+    protected boolean loadRecord(Tile[][] gameGrid, SimpleIntegerProperty score, SimpleIntegerProperty round,StringProperty time) {
         if(GameSettings.isGuest()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
@@ -179,11 +180,9 @@ public class RecordManager {
             }
         }
         time.set(props.getProperty("time"));
-        int score=Integer.parseInt(props.getProperty("score"));
-        int round=Integer.parseInt(props.getProperty("round"));
+        score.set(Integer.parseInt(props.getProperty("score")));
+        round.set(Integer.parseInt(props.getProperty("round")));
         System.out.println("loadRecord: sc"+score+" ro"+round);
-        GameState.getInstance().gameMovePoints.set(score);
-        GameState.getInstance().gameRoundProperty.set(round);
         return true;
     }
 }
