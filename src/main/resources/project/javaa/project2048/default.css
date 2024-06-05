@@ -91,37 +91,37 @@
 }
 .game-lblPause, .game-lblOver, .game-lblQuit {
     -fx-font-size: 60px;
-    -fx-fill: #776e65;
+    -fx-text-fill: #776e65;
 }
 .game-lblWarning {
     -fx-font-size: 18px;
     -fx-font-style: italic;
-    -fx-fill: #f65e3b;
+    -fx-text-fill: #f65e3b;
 }
 .game-lblAbout {
     -fx-font-size: 50px;
-    -fx-fill: #776e65;
+    -fx-text-fill: #776e65;
 }
 .game-lblAbout2 {
     -fx-font-size: 25px;
-    -fx-fill: #f2b179;
+    -fx-text-fill: #f2b179;
     -fx-effect: dropshadow( three-pass-box, rgba(243, 215, 116, 1), 10, 0.5, 0, 0 );
     -fx-translate-y: -25;
 }
 .game-lblAboutSub {
     -fx-font-size: 25px;
-    -fx-fill: #cdc1b4;
+    -fx-text-fill: #cdc1b4;
 }
 .game-lblAboutSub2 {
     -fx-font-size: 25px;
-    -fx-fill: derive(#cdc1b4,-40%);
+    -fx-text-fill: derive(#cdc1b4,-40%);
 }
 .game-overlay-won {
     -fx-background-color: rgba(237, 194, 46, 0.5);
 }
 .game-lblWon {
     -fx-font-size: 60px;
-    -fx-fill: #f9f6f2;
+    -fx-text-fill: #f9f6f2;
 }
 .game-overlay-over {
     -fx-opacity: 0.6;
