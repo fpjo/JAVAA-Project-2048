@@ -527,7 +527,7 @@ public class Board extends Pane {
                 time = LocalTime.now().minusNanos(Long.parseLong(sTime.get()));
             }
             state.gameScoreProperty.set(score.get());
-            state.gameRoundProperty.set(round.get());
+            state.gameRoundProperty.set(round.get()-1);
             timer.play();
             return true;
         }
