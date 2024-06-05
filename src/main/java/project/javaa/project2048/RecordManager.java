@@ -39,7 +39,6 @@ public class RecordManager {
         }
         LocalDateTime now = LocalDateTime.now();
         GRID_SIZE=GameSettings.getGridSize();
-//        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
         props.setProperty("score", score.toString());
         props.setProperty("round", round.toString());
         props.setProperty("grid_size", Integer.toString(GRID_SIZE));
@@ -70,9 +69,8 @@ public class RecordManager {
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
-                while (dis.read() != -1) ; //empty loop to clear the data
+                while (dis.read() != -1) ;
                 digest = md.digest();
-//                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
             }
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -92,9 +90,8 @@ public class RecordManager {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = new byte[0];
             try (DigestInputStream dis = new DigestInputStream(fileInputStream, md)) {
-                while (dis.read() != -1) ; //empty loop to clear the data
+                while (dis.read() != -1) ;
                 digest = md.digest();
-//                System.out.println("SHA-256 hash: " + Arrays.toString(digest));
             }
             var hashFilePath = new File(recordFile.getParent(), recordFile.getName().replace(".properties", ".hash"));
             try (FileInputStream file = new FileInputStream(hashFilePath)) {
