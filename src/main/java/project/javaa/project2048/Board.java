@@ -142,13 +142,13 @@ public class Board extends Pane {
         var hTime = new HBox();
         hTime.setMinSize(gridDimension, GAP_HEIGHT);
         hTime.setAlignment(Pos.BOTTOM_RIGHT);
-        lblTime.getStyleClass().addAll("game-label", "game-time");
-        lblTime.textProperty().bind(clock);
+//        lblTime.getStyleClass().addAll("game-label", "game-time");
+//        lblTime.textProperty().bind(clock);
         timer = new Timeline(new KeyFrame(Duration.ZERO, e -> clock.set(LocalTime.now().minusNanos(time.toNanoOfDay()).format(fmt))), new KeyFrame(Duration.seconds(1)));
         timer.setCycleCount(Animation.INDEFINITE);
-        hTime.getChildren().add(lblTime);
+//        hTime.getChildren().add(lblTime);
 
-        vGame.getChildren().add(hTime);
+//        vGame.getChildren().add(hTime);
         getChildren().add(vGame);
 
         lblPoints.getStyleClass().addAll("game-label", "game-points");
