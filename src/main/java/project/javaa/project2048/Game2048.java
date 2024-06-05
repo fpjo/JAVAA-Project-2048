@@ -4,13 +4,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-//import project.javaa.project2048.GamePane;
 
 import java.util.Objects;
 
 public class Game2048 extends Application {
     public static final String VERSION = "1.0.1";
-//    private GamePane gamePane;
     private StartPane startPane;
     private static Game2048 applicationInstance;
     @Override
