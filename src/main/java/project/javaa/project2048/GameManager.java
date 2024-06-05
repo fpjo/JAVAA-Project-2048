@@ -33,8 +33,6 @@ public class GameManager extends Group {
     private final GameState state = GameState.getInstance();
     private Animation shakingAnimation;
 
-//    public GameManager(){ this(GameSettings.LOCAL); }
-
     public GameManager(){
         GRID_SIZE = GameSettings.getGridSize();
         FINAL_VALUE_TO_WIN = GameSettings.getFinalValueToWin();
@@ -105,9 +103,6 @@ public class GameManager extends Group {
         board.startGame();
     }
 
-    /**
-     * Redraws all tiles in the <code>gameGrid</code> object
-     */
     private void redrawTilesInGameGrid() {
         synchronized (gameGrid){
             for(int i=0;i<GRID_SIZE;i++) {
@@ -202,8 +197,6 @@ public class GameManager extends Group {
         }
 
         if (movedCnt == 0) {
-            // no tiles got moved
-            // shake the game pane
             if (shakingAnimation == null) {
                 shakingAnimation = createShakeGamePaneAnimation();
             }
@@ -240,10 +233,6 @@ public class GameManager extends Group {
         return false;
     }
 
-    /**
-     * Adds a tile of random value to a random location with a proper animation
-     *
-     */
     private void addAndAnimateRandomTile(Location randomLocation) {
         var tile = board.addRandomTile(randomLocation);
         gameGrid[randomLocation.getY()][randomLocation.getX()] = tile;
@@ -251,13 +240,6 @@ public class GameManager extends Group {
         animateNewlyAddedTile(tile).play();
     }
 
-    /**
-     * Animation that creates a fade in effect when a tile is added to the game by
-     * increasing the tile scale from 0 to 100%
-     *
-     * @param tile to be animated
-     * @return a scale transition
-     */
     private ScaleTransition animateNewlyAddedTile(Tile tile) {
         final var scaleTransition = new ScaleTransition(ANIMATION_NEWLY_ADDED_TILE, tile);
         scaleTransition.setToX(1.0);
@@ -300,13 +282,6 @@ public class GameManager extends Group {
         return shakingAnimation;
     }
 
-    /**
-     * Animation that moves the tile from its previous location to a new location
-     *
-     * @param tile        to be animated
-     * @param newLocation new location of the tile
-     * @return a timeline
-     */
     private Timeline animateExistingTile(Tile tile, Location newLocation) {
         var timeline = new Timeline();
         var kvX = new KeyValue(tile.layoutXProperty(),
@@ -323,13 +298,6 @@ public class GameManager extends Group {
         return timeline;
     }
 
-    /**
-     * Animation that creates a pop effect when two tiles merge by increasing the
-     * tile scale to 120% at the middle, and then going back to 100%
-     *
-     * @param tile to be animated
-     * @return a sequential transition
-     */
     private SequentialTransition animateMergedTile(Tile tile) {
         final var scale0 = new ScaleTransition(ANIMATION_MERGED_TILE, tile);
         scale0.setToX(1.2);
@@ -344,63 +312,37 @@ public class GameManager extends Group {
         return new SequentialTransition(scale0, scale1);
     }
 
-    /**
-     * Move the tiles according user input if overlay is not on
-     *
-     */
     public void move(Direction direction) {
         if (!board.isLayerOn().get()) {
             moveTiles(direction);
         }
     }
 
-    /**
-     * Set gameManager scale to adjust overall game size
-     *
-     */
     public void setScale(double scale) {
         this.setScaleX(scale);
         this.setScaleY(scale);
     }
 
-    /**
-     * Pauses the game time, covers the grid
-     */
     public void pauseGame() {
         board.pauseGame();
     }
 
-    /**
-     * Quit the game with confirmation
-     */
     public void quitGame() {
         board.quitGame();
     }
 
-    /**
-     * Ask to save the game from a properties file with confirmation
-     */
     public void saveSession() {
         board.saveSession();
     }
 
-    /**
-     * Save the game to a properties file, without confirmation
-     */
     private void doSaveSession() {
         board.saveSession(gameGrid,roundsCnt);
     }
 
-    /**
-     * Ask to restore the game from a properties file with confirmation
-     */
     public void restoreSession() {
         board.restoreSession();
     }
 
-    /**
-     * Restore the game from a properties file, without confirmation
-     */
     private void doRestoreSession() {
         System.out.println("Start restoring session...");
         initializeGameGrid();
@@ -416,12 +358,6 @@ public class GameManager extends Group {
         }
     }
 
-    /**
-     * Save actual record to a properties file
-     */
-//    public void saveRecord() {
-//        board.saveRecord();
-//    }
     private HBox createOperatorBar(){
         var btnUp = createButtonItem("mUp", "Move Up", t -> move(Direction.UP));
         var btnDown = createButtonItem("mDown", "Move Down", t -> move(Direction.DOWN));
@@ -434,16 +370,13 @@ public class GameManager extends Group {
     }
     private HBox createToolBar() {
         var btnSave = createButtonItem("mSave", "Save Session", t -> saveSession());
-//        var btnLogin = createButtonItem("mLogin", "Login", t -> saveSession());
         var btnRestore = createButtonItem("mRestore", "Restore Session", t -> restoreSession());
         var btnPause = createButtonItem("mPause", "Pause Game", t -> board.pauseGame());
         var btnReset = createButtonItem("mReplay", "Reset", t -> board.showTryAgainOverlay());
-//        var btnSettings = createButtonItem("mUp", "Settings", t -> board.showTryAgainOverlay()); //about to modify
         var btnQuit = createButtonItem("mQuit", "Quit Game", t -> quitGame());
 
 
         var toolbar = new HBox(btnSave, btnRestore, btnPause, btnReset, btnQuit);
-//        var toolbar = new HBox(btnPause, btnReset, btnQuit);
         toolbar.setAlignment(Pos.CENTER);
         toolbar.setPadding(new Insets(10.0));
         return toolbar;

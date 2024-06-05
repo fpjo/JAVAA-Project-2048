@@ -38,7 +38,6 @@ public class StartPane extends VBox {
         setExitButton(primaryStage);
         setSettingButton(primaryStage);
         setLoginButton(primaryStage);
-//        setLoadButton(primaryStage);
         setLoginButton(primaryStage);
 
         versionLabel = new Label("Version: " + Game2048.VERSION);
@@ -87,7 +86,6 @@ public class StartPane extends VBox {
                 gameScene.getStylesheets().clear();
                 gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(newValue)).toExternalForm());
             });
-//            gameScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
             setGameBounds(primaryStage, gameScene);
             setQuitListener(primaryStage);
             primaryStage.setScene(gameScene);
