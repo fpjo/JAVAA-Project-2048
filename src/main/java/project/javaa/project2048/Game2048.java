@@ -13,7 +13,7 @@ public class Game2048 extends Application {
     private static Game2048 applicationInstance;
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("2048 Game");
+        primaryStage.setTitle("Project 2048");
         startPane = new StartPane(primaryStage);
         Scene startScene = new Scene(startPane, 400, 500);
         startScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
@@ -31,7 +31,7 @@ public class Game2048 extends Application {
         var visualBounds = Screen.getPrimary().getVisualBounds();
         double factor = Math.min(visualBounds.getWidth() / (gameBounds.getWidth() + margin),
                 visualBounds.getHeight() / (gameBounds.getHeight() + margin));
-        primaryStage.setTitle("Project2048");
+        primaryStage.setTitle("Project 2048");
         primaryStage.setMinWidth(gameBounds.getWidth() / 2d);
         primaryStage.setMinHeight(gameBounds.getHeight() / 2d);
         primaryStage.setWidth(((gameBounds.getWidth() + margin) * factor) / 1.5d);
