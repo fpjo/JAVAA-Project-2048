@@ -153,7 +153,7 @@ public class GameManager extends Group {
                     mergedToBeRemoved.add(tile0);
                     gameGrid[y][x]=null;
                     board.addPoints(tileF.getValue());
-                    if(tileF.getValue()==FINAL_VALUE_TO_WIN){
+                    if(tileF.getValue()>=FINAL_VALUE_TO_WIN){
                         board.setGameWin(true);
                     }
                     movedCnt++;

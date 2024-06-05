@@ -45,6 +45,16 @@ public class LoginPane extends VBox {
         signInButton = new Button("Sign In");
         grid.add(signInButton, 1, 3);
         signInButton.setOnAction(e -> {
+            if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Login Error");
+                alert.setContentText("Username or password cannot be empty");
+                ButtonType buttonTypeOk = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                alert.getButtonTypes().setAll(buttonTypeOk);
+                alert.showAndWait();
+                return;
+            }
             String username = usernameField.getText();
             String password = passwordField.getText();
             if(userManager.login(username, password)){
@@ -69,6 +79,16 @@ public class LoginPane extends VBox {
         registerButton = new Button("Register");
         grid.add(registerButton, 1, 4);
         registerButton.setOnAction(e -> {
+            if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Registration Error");
+                alert.setContentText("Username or password cannot be empty");
+                ButtonType buttonTypeOk = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                alert.getButtonTypes().setAll(buttonTypeOk);
+                alert.showAndWait();
+                return;
+            }
             if(userManager.register(usernameField.getText(), passwordField.getText())) {
                 usernameField.clear();
                 passwordField.clear();
