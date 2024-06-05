@@ -1,0 +1,45 @@
+/* style.css */
+.root {
+    -fx-font-family: 'Arial';
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 14px;
+}
+
+.hyperlink {
+    -fx-font-size: 12px;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 100px;
+}
+.register-button {
+    -fx-background-color: #4c77af;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 150px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.grid-pane {
+    -fx-alignment: center;
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+}

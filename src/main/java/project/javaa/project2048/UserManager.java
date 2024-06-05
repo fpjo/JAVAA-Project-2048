@@ -56,6 +56,7 @@ public class UserManager {
     public boolean register(String username, String password) {
         for (Map.Entry<String, String> entry : userData.entrySet()) {
             if (entry.getKey().equals(username)) {
+                System.out.println(username+" "+password+" "+entry.getKey()+" "+entry.getValue());
                 return false;
             }
         }

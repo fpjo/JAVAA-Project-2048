@@ -61,7 +61,7 @@ public class StartPane extends VBox {
             Stage stage = new Stage();
             LoginPane loginPane = new LoginPane(stage);
             Scene loginScene = new Scene(loginPane, 400, 600);
-            loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("default.css")).toExternalForm());
+            loginScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("login.css")).toExternalForm());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Login");
             stage.setScene(loginScene);
