@@ -347,76 +347,6 @@ public class Board extends Pane {
                 "game-overlay-pause", "game-lblPause"));
         state.gameRestoreProperty.addListener(new Overlay("Restore?", "Current game will be deleted", bRestore, bContinueNo,
                 "game-overlay-pause", "game-lblPause"));
-//        state.gameAboutProperty.addListener((observable, oldValue, newValue) -> {
-//            if (newValue) {
-//                timer.stop();
-//                overlay.getStyleClass().setAll("game-overlay", "game-overlay-quit");
-//
-//                var flow = new TextFlow();
-//                flow.setTextAlignment(TextAlignment.CENTER);
-//                flow.setPadding(new Insets(10, 0, 0, 0));
-//                flow.setMinSize(gridDimension, gridDimension);
-//                flow.setPrefSize(gridDimension, gridDimension);
-//                flow.setMaxSize(gridDimension, gridDimension);
-//                flow.setPrefSize(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-//
-//                var t00 = new Text("2048");
-//                t00.getStyleClass().setAll("game-label", "game-lblAbout");
-//
-//                var t01 = new Text("FX");
-//                t01.getStyleClass().setAll("game-label", "game-lblAbout2");
-//
-//                var t02 = new Text(" Game\n");
-//                t02.getStyleClass().setAll("game-label", "game-lblAbout");
-//
-//                var t1 = new Text("JavaFX game - Desktop version\n\n");
-//                t1.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var t20 = new Text("Powered by ");
-//                t20.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var link1 = new Hyperlink();
-//                link1.setText("OpenJFX");
-//                link1.setOnAction(e -> Game2048.urlOpener().open("https://openjfx.io/"));
-//                link1.getStyleClass().setAll("game-label", "game-lblAboutSub2");
-//
-//                var t21 = new Text(" Project \n\n");
-//                t21.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var t23 = new Text("© ");
-//                t23.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var link2 = new Hyperlink();
-//                link2.setText("@JPeredaDnr");
-//                link2.setOnAction(e -> Game2048.urlOpener().open("https://twitter.com/JPeredaDnr"));
-//                link2.getStyleClass().setAll("game-label", "game-lblAboutSub2");
-//
-//                var t22 = new Text(" & ");
-//                t22.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var link3 = new Hyperlink();
-//                link3.setText("@brunoborges");
-//                link3.setOnAction(e -> Game2048.urlOpener().open("https://twitter.com/brunoborges"));
-//
-//                var t32 = new Text(" & ");
-//                t32.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//                link3.getStyleClass().setAll("game-label", "game-lblAboutSub2");
-//
-//                var t24 = new Text("\n\n");
-//                t24.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                var t31 = new Text(" Version " + Game2048.VERSION + " - 2015\n\n");
-//                t31.getStyleClass().setAll("game-label", "game-lblAboutSub");
-//
-//                flow.getChildren().setAll(t00, t01, t02, t1, t20, link1, t21, t23, link2, t22, link3);
-//                flow.getChildren().addAll(t24, t31);
-//                txtOverlay.getChildren().setAll(flow);
-//                buttonsOverlay.getChildren().setAll(bContinue);
-//                this.getChildren().removeAll(overlay, buttonsOverlay);
-//                this.getChildren().addAll(overlay, buttonsOverlay);
-//                state.layerOnProperty.set(true);
-//            }
-//        });
         state.gameQuitProperty.addListener(new Overlay("Quit Game?", "Non saved data may be lost", bQuit, bContinueNo,
                 "game-overlay-quit", "game-lblQuit"));
         state.gameScoreProperty.addListener((ov, i, i1) -> {
@@ -533,12 +463,6 @@ public class Board extends Pane {
         }
     }
 
-//    public void aboutGame() {
-//        if (!state.gameAboutProperty.get()) {
-//            state.gameAboutProperty.set(true);
-//        }
-//    }
-
     public void quitGame() {
         if (state.gameQuitProperty.get()) {
             exitGame();
@@ -573,9 +497,6 @@ public class Board extends Pane {
         }
     }
 
-    /*
-     * Once we have confirmation
-     */
     public void saveSession(Tile[][] gameGrid,int roundCnt) {
         state.saveGame.set(false);
         sessionManager.saveRecord(gameGrid, state.gameScoreProperty.getValue(), state.gameRoundProperty.getValue(),
@@ -589,9 +510,6 @@ public class Board extends Pane {
         }
     }
 
-    /*
-     * Once we have confirmation
-     */
     public boolean restoreSession(Tile[][] gameGrid) {
         state.restoreGame.set(false);
         doClearGame();
