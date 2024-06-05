@@ -67,7 +67,9 @@
 
 .game-title {
     -fx-font-size: 80px;
+    -fx-font-weight: bold;
     -fx-text-fill: #776e65;
+    -fx-alignment: center;
 }
 .game-subtitle {
     -fx-font-size: 40px;
@@ -140,8 +142,8 @@
     -fx-text-fill: white;
     -fx-max-width: 180;
     -fx-alignment: center;
-    -fx-background-color: #8f7a66;
-    -fx-border-color: #8f7a66;
+    -fx-background-color: #f2b179;
+    -fx-border-color: #f2b179;
     -fx-border-width: 2;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -152,8 +154,20 @@
     -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
     -fx-max-width: 180;
-    -fx-background-color: #f2b179;
-    -fx-border-color: #f2b179;
+    -fx-background-color: #f59563;
+    -fx-border-color: #f59563;
+    -fx-border-width: 2;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-padding: 6 20 12 20;
+}
+.load-button {
+    -fx-font-size: 30px;
+    -fx-font-family: 'Fira Code Retina';
+    -fx-text-fill: white;
+    -fx-max-width: 180;
+    -fx-background-color: #f67c5f;
+    -fx-border-color: #f67c5f;
     -fx-border-width: 2;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -164,8 +178,8 @@
     -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
     -fx-max-width: 180;
-    -fx-background-color: #f2b179;
-    -fx-border-color: #f2b179;
+    -fx-background-color: #edcf72;
+    -fx-border-color: #edcf72;
     -fx-border-width: 2;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -185,11 +199,9 @@
     -fx-border-radius: 3;
     -fx-padding: 6 20 12 20;
 }
-.load-button {
+.game-button {
     -fx-font-size: 30px;
-    -fx-font-family: 'Fira Code Retina';
     -fx-text-fill: white;
-    -fx-max-width: 180;
     -fx-background-color: #8f7a66;
     -fx-border-color: #8f7a66;
     -fx-border-width: 2;
@@ -331,10 +343,6 @@
     -fx-background-radius: 3;
     -fx-border-radius: 3;
 }
-
-/*
-SVG ICONS https://icomoon.io/app/
-*/
 #mUp {
     -fx-shape: "M16 1l-15 15h9v16h12v-16h9z";
     -fx-background-color: #f9f6f2;

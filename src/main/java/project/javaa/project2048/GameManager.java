@@ -37,6 +37,7 @@ public class GameManager extends Group {
 
     public GameManager(){
         GRID_SIZE = GameSettings.getGridSize();
+        FINAL_VALUE_TO_WIN = GameSettings.getFinalValueToWin();
         this.gameGrid = new Tile[GRID_SIZE][GRID_SIZE];
         for(int i=0;i<GRID_SIZE;i++){
             for(int j=0;j<GRID_SIZE;j++){
@@ -155,8 +156,11 @@ public class GameManager extends Group {
                     parallelTransition.getChildren().add(animateExistingTile(tile0, tileF.getLocation()));
                     parallelTransition.getChildren().add(animateMergedTile(tileF));
                     mergedToBeRemoved.add(tile0);
-                    gameGrid[y][x]=null; //也许有问题
+                    gameGrid[y][x]=null;
                     board.addPoints(tileF.getValue());
+                    if(tileF.getValue()==FINAL_VALUE_TO_WIN){
+                        board.setGameWin(true);
+                    }
                     movedCnt++;
                 }else if(x!=xp || y!=yp){
                     parallelTransition.getChildren().add(animateExistingTile(tile0, new Location(xp,yp)));
