@@ -2,9 +2,6 @@ package project.javaa.project2048;
 
 import javafx.scene.input.KeyCode;
 
-/**
- * @author Bruno Borges
- */
 public enum Direction {
 
     UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
